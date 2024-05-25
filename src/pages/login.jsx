@@ -37,7 +37,7 @@ const LoginPage = () => {
                 className="text-sm font-medium text-gray-900 hover:underline dark:text-gray-50"
                 href="#"
               >
-                Forgot your password?
+                Forgot your password
               </a>
             </div>
             <Input id="password" required type="password" />
