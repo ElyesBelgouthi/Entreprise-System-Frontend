@@ -61,7 +61,6 @@ const DUMMY_POSTS = [
 const FeedPage = () => {
   return (
     <>
-      <Header />
       <main className="flex-1 bg-gray-100 dark:bg-gray-900">
         <div className="container py-8">
           <div className="grid gap-8 lg:grid-cols-[1fr_300px]">
