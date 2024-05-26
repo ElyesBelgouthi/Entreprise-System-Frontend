@@ -1,85 +1,69 @@
-import { CardTitle, CardHeader, CardContent, Card } from "../../app/ui/card"
+import DashboardCard from "@/components/DashboardCard"
+
+const DUMMY_STATS = [
+    {
+        title: "Total Employees",
+        change: "+1,234",
+        changePerentage: "+15% from last month",
+        icon:'users'
+    },
+    {
+        title: "Active Employees",
+        change: "+1,100",
+        changePerentage: "+12% from last month",
+        icon:'users'
+    },
+    {
+        title: "Disabled Employees",
+        change: "+134",
+        changePerentage: "+3% from last month",
+        icon:'users'
+    },
+    {
+        title: "New Hires",
+        change: "+75",
+        changePerentage: "+5% from last month",
+        icon:'users'
+    },
+    {
+        title: "Number of Departments",
+        change: "+25",
+        changePerentage: "+2% from last month",
+        icon:'building'
+    },
+    {
+        title: "Number of Managers",
+        change: "+150",
+        changePerentage: "+4% from last month",
+        icon:'users'
+    },
+    {
+        title: "Number of Rooms",
+        change: "+50",
+        changePerentage: "+3% from last month",
+        icon:'building'
+    },
+
+]
+
 
 const Dashboard =() => {
   return (
         <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-sm font-medium">Total Employees</CardTitle>
-                <UsersIcon className="w-4 h-4 text-gray-500 dark:text-gray-400" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">+1,234</div>
-                <p className="text-xs text-gray-500 dark:text-gray-400">+15% from last month</p>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-sm font-medium">Active Employees</CardTitle>
-                <UsersIcon className="w-4 h-4 text-gray-500 dark:text-gray-400" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">+1,100</div>
-                <p className="text-xs text-gray-500 dark:text-gray-400">+12% from last month</p>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-sm font-medium">Disabled Employees</CardTitle>
-                <UsersIcon className="w-4 h-4 text-gray-500 dark:text-gray-400" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">+134</div>
-                <p className="text-xs text-gray-500 dark:text-gray-400">+3% from last month</p>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-sm font-medium">New Hires</CardTitle>
-                <UsersIcon className="w-4 h-4 text-gray-500 dark:text-gray-400" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">+75</div>
-                <p className="text-xs text-gray-500 dark:text-gray-400">+5% from last month</p>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-sm font-medium">Number of Departments</CardTitle>
-                <BuildingIcon className="w-4 h-4 text-gray-500 dark:text-gray-400" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">+25</div>
-                <p className="text-xs text-gray-500 dark:text-gray-400">+2% from last month</p>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-sm font-medium">Number of Managers</CardTitle>
-                <UsersIcon className="w-4 h-4 text-gray-500 dark:text-gray-400" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">+150</div>
-                <p className="text-xs text-gray-500 dark:text-gray-400">+4% from last month</p>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-sm font-medium">Number of Rooms</CardTitle>
-                <BuildingIcon className="w-4 h-4 text-gray-500 dark:text-gray-400" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">+50</div>
-                <p className="text-xs text-gray-500 dark:text-gray-400">+3% from last month</p>
-              </CardContent>
-            </Card>
+            {DUMMY_STATS.map(
+                (stats,
+                index
+            )=> {
+                return <DashboardCard stats={stats} key={index} />
+            })}
           </div>
         </main>
   )
 }
 
 export default Dashboard
+
 
 
 function BuildingIcon(props) {
