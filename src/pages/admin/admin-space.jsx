@@ -1,9 +1,6 @@
 import { Button } from "../../app/ui/button"
-import { CardTitle, CardDescription, CardHeader, CardContent, Card } from "../../app/ui/card"
 import { Input } from "../../app/ui/input"
 import { DropdownMenuTrigger, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuItem, DropdownMenuContent, DropdownMenu } from "../../app/ui/dropdown-menu"
-import { TableHead, TableRow, TableHeader, TableCell, TableBody, Table } from "../../app/ui/table"
-import { Badge } from "../../app/ui/badge"
 import { Outlet } from "react-router-dom"
 
 const AdminSpace = (props) => {
