@@ -1,8 +1,17 @@
 import { Button } from "../../app/ui/button"
-import { DropdownMenuTrigger, DropdownMenuItem, DropdownMenuContent, DropdownMenu } from "../../app/ui/dropdown-menu"
 import { TableHead, TableRow, TableHeader, TableCell, TableBody, Table } from "../../app/ui/table"
-import { Badge } from "../../app/ui/badge"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "../../app/ui/dialog"
+
+
 import EmployeeRow from "@/components/EmployeeRow";
+import AddEmployeeForm from "@/components/AddEmployeeForm";
 
 const DUMMY_Employees = [
   {
@@ -48,9 +57,9 @@ const EmployeesMangagement = () => {
     return <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
     <div className="flex items-center">
       <h1 className="font-semibold text-lg md:text-2xl">Employees</h1>
-      <Button className="ml-auto" size="sm">
-        Add Employee
-      </Button>
+      
+      <AddEmployeeForm/>
+      
     </div>
     <div className="border shadow-sm rounded-lg">
       <Table>
