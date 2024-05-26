@@ -1,7 +1,8 @@
 import { Button } from "../../app/ui/button"
 import { Input } from "../../app/ui/input"
 import { DropdownMenuTrigger, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuItem, DropdownMenuContent, DropdownMenu } from "../../app/ui/dropdown-menu"
-import { Outlet } from "react-router-dom"
+import { AvatarImage, AvatarFallback, Avatar } from "../../app/ui/avatar";
+import { NavLink, Outlet } from "react-router-dom"
 
 const AdminSpace = (props) => {
   return (
@@ -18,35 +19,36 @@ const AdminSpace = (props) => {
             </Button>
           </div>
           <div className="flex-1 overflow-auto py-2">
-            <nav className="grid items-start px-4 text-sm font-medium">
-              <a
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
-                href="#"
-              >
-                <HomeIcon className="h-4 w-4" />
-                Dashboard
-              </a>
-              <a
-                className="flex items-center gap-3 rounded-lg bg-gray-100 px-3 py-2 text-gray-900 transition-all hover:text-gray-900 dark:bg-gray-800 dark:text-gray-50 dark:hover:text-gray-50"
-                href="#"
-              >
-                <UsersIcon className="h-4 w-4" />
-                Employees
-              </a>
-              <a
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
-                href="#"
-              >
-                <SettingsIcon className="h-4 w-4" />
-                Settings
-              </a>
-              <a
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
-                href="#"
-              >
-                <LineChartIcon className="h-4 w-4" />
-                Reports
-              </a>
+            <nav className="grid items-start px-4 pt-8 space-y-4 text-sm font-medium">
+            <NavLink 
+            end
+            to="/admin/" 
+            className={({ isActive }) =>
+                `flex items-center gap-3 rounded-lg px-3 py-2 text-xl transition-all hover:text-gray-900 dark:bg-gray-800 dark:text-gray-50 dark:hover:text-gray-50 ${isActive ? 'text-gray-900' : 'text-gray-500'}`
+              }            >
+                <HomeIcon className="h-6 w-6" />
+                 Dashboard
+            </NavLink>
+
+<NavLink 
+end
+  to="employees"
+  className={({ isActive }) =>
+    `flex items-center gap-3 rounded-lg px-3 py-2  transition-all text-xl hover:text-gray-900 dark:bg-gray-800 dark:text-gray-50 dark:hover:text-gray-50 ${isActive ? 'text-gray-900' : 'text-gray-500'}`
+  }     >
+  <UsersIcon className="h-6 w-6" />
+  Employees
+</NavLink>
+<NavLink 
+end
+  to="settings"
+  className={({ isActive }) =>
+    `flex items-center gap-3 rounded-lg px-3 py-2  transition-all text-xl hover:text-gray-900 dark:bg-gray-800 dark:text-gray-50 dark:hover:text-gray-50 ${isActive ? 'text-gray-900' : 'text-gray-500'}`
+  }     >
+  <SettingsIcon className="h-6 w-6" />
+  Settings
+</NavLink>
+              
             </nav>
           </div>
         </div>
@@ -76,18 +78,10 @@ const AdminSpace = (props) => {
                 size="icon"
                 variant="ghost"
               >
-                <img
-                  alt="Avatar"
-                  className="rounded-full"
-                  height="32"
-                  src="/placeholder.svg"
-                  style={{
-                    aspectRatio: "32/32",
-                    objectFit: "cover",
-                  }}
-                  width="32"
-                />
-                <span className="sr-only">Toggle user menu</span>
+                <Avatar>
+                <AvatarImage alt="@jaredpalmer" src="/placeholder-avatar.jpg" />
+                <AvatarFallback>JP</AvatarFallback>
+              </Avatar>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
