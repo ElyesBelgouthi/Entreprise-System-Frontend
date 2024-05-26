@@ -39,7 +39,7 @@ const EditEmployeeForm = ({employee}) => {
 
         </DialogHeader>
         <ScrollArea className="h-[600px] rounded-md border p-2">
-              <DialogEmployeeForm form={form} onSubmitFn={onSubmit} />
+              <DialogEmployeeForm form={form} hireDate={employee.hireDate} onSubmitFn={onSubmit} />
             </ScrollArea>
       </DialogContent>
     </Dialog>

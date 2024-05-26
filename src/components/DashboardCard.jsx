@@ -2,11 +2,11 @@ import { CardTitle, CardHeader, CardContent, Card } from "../app/ui/card"
 
 
 const DashboardCard = ({stats}) => {
-    return <Card>
+    return <Card className="w-76 h-36">
     <CardHeader className="flex flex-row items-center justify-between pb-2">
       <CardTitle className="text-sm font-medium">{stats.title}</CardTitle>
       {
-        stats.icon == "building" ? <UsersIcon className="w-4 h-4 text-gray-500 dark:text-gray-400" />:
+        stats.icon !== "building" ? <UsersIcon className="w-4 h-4 text-gray-500 dark:text-gray-400" />:
         <BuildingIcon className="w-4 h-4 text-gray-500 dark:text-gray-400" />
       }
       

@@ -66,9 +66,9 @@ const Departments = [
   "Training and Development",
 ];
 
-const DialogEmployeeForm = ({form, onSubmitFn}) => {
+const DialogEmployeeForm = ({form, hireDate,onSubmitFn}) => {
 
-  const [date, setDate] = useState(null);
+  const [date, setDate] = useState(hireDate);
 
   function onSubmit(values) {
     onSubmitFn(values);

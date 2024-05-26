@@ -1,6 +1,6 @@
 import { Button } from "../app/ui/button"
 import { DropdownMenuTrigger, DropdownMenuItem, DropdownMenuContent, DropdownMenu } from "../app/ui/dropdown-menu"
-import { TableHead, TableRow, TableHeader, TableCell, TableBody, Table } from "../app/ui/table"
+import {  TableRow, TableHeader, TableCell, TableBody, Table } from "../app/ui/table"
 import { Badge } from "../app/ui/badge"
 import EditEmployeeForm from "./EditEmployeeForm"
 
