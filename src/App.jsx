@@ -7,6 +7,7 @@ import AdminSpace from "./pages/admin/admin-space";
 import EmployeesMangagement from "./pages/admin/employees-management";
 import Dashboard from "./pages/admin/dashboard";
 import Settings from "./pages/admin/settings";
+import RoomsAdmin from "./pages/admin/rooms-admin";
 
 const router = createBrowserRouter([
   {
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
       {
         path: "employees",
         element: <EmployeesMangagement/>
+      },
+      {
+        path: "rooms",
+        element: <RoomsAdmin/>
       },
       {
         path: "settings",

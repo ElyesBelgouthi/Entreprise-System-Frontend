@@ -41,6 +41,15 @@ end
 </NavLink>
 <NavLink 
 end
+  to="rooms"
+  className={({ isActive }) =>
+    `flex items-center gap-3 rounded-lg px-3 py-2  transition-all text-xl hover:text-gray-900 dark:bg-gray-800 dark:text-gray-50 dark:hover:text-gray-50 ${isActive ? 'text-gray-900' : 'text-gray-500'}`
+  }     >
+  <Grid3x3Icon className="h-6 w-6" />
+  All Rooms
+</NavLink>
+<NavLink 
+end
   to="settings"
   className={({ isActive }) =>
     `flex items-center gap-3 rounded-lg px-3 py-2  transition-all text-xl hover:text-gray-900 dark:bg-gray-800 dark:text-gray-50 dark:hover:text-gray-50 ${isActive ? 'text-gray-900' : 'text-gray-500'}`
@@ -88,7 +97,6 @@ end
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem>Settings</DropdownMenuItem>
-              <DropdownMenuItem>Support</DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem>Logout</DropdownMenuItem>
             </DropdownMenuContent>
@@ -250,6 +258,29 @@ function UsersIcon(props) {
       <circle cx="9" cy="7" r="4" />
       <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
       <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+    </svg>
+  )
+}
+
+function Grid3x3Icon(props) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <rect width="18" height="18" x="3" y="3" rx="2" />
+      <path d="M3 9h18" />
+      <path d="M3 15h18" />
+      <path d="M9 3v18" />
+      <path d="M15 3v18" />
     </svg>
   )
 }
