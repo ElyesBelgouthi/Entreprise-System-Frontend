@@ -2,6 +2,7 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import "./App.css";
 import ChatPage from "./pages/ChatPage";
 import ProfilePage from "./pages/ProfilePage";
+import FeedPage from "./pages/FeedPage";
 import LoginPage from "./pages/login";
 import AdminSpace from "./pages/admin/admin-space";
 import EmployeesMangagement from "./pages/admin/employees-management";
@@ -9,15 +10,30 @@ import Dashboard from "./pages/admin/dashboard";
 import Settings from "./pages/admin/settings";
 import RoomsAdmin from "./pages/admin/rooms-admin";
 import RoomEdit from "./pages/admin/room-edit";
+import MainLayout from "./pages/MainLayout";
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: "/auth",
     element: <LoginPage />,
   },
   {
-    path: "/chat",
-    element: <ChatPage />,
+    path: "/",
+    element: <MainLayout />,
+    children: [
+      {
+        index: 1,
+        element: <FeedPage />,
+      },
+      {
+        path: "/chat",
+        element: <ChatPage />,
+      },
+      {
+        path: "/profile",
+        element: <ProfilePage />,
+      },
+    ],
   },
   {
     path: "/admin",
