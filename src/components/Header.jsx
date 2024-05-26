@@ -13,7 +13,7 @@ import {
   DropdownMenu,
 } from "../app/ui/dropdown-menu";
 import { AvatarImage, AvatarFallback, Avatar } from "../app/ui/avatar";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 import logo from "../assets/logo.png";
 
@@ -61,14 +61,16 @@ const Header = () => {
             >
               <Avatar>
                 <AvatarImage alt="@jaredpalmer" src="/placeholder-avatar.jpg" />
-                <AvatarFallback>JP</AvatarFallback>
+                <AvatarFallback>EB</AvatarFallback>
               </Avatar>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+            <DropdownMenuLabel>Elyes Belgouthi</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Manage Profile</DropdownMenuItem>
+            <DropdownMenuItem>
+              <Link to="/profile">Manage Profile</Link>
+            </DropdownMenuItem>
             <DropdownMenuItem>Sign Out</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
