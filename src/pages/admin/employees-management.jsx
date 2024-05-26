@@ -15,40 +15,104 @@ import AddEmployeeForm from "@/components/AddEmployeeForm";
 
 const DUMMY_Employees = [
   {
-    name: "John Doe",
-    email: "john@acme.com",
-    department: "Sales",
-    startDate: "2021-03-15",
-    status: "Active",
-    enabled: true  },
+    name: "Employee 1",
+    email: "employee1@example.com",
+    password: "password1",
+    department: "Human Resources (HR)",
+    hireDate: "2024-05-27T08:00:00.000Z",
+    roles: ["Admin", "User"],
+    phoneNumber: "+1234567890",
+    status: "Active"
+  },
   {
-    name: "Jane Smith",
-    email: "jane@acme.com",
-    department: "Marketing",
-    startDate: "2022-01-01",
-    status: "Active",
-    enabled: true  },
-  {
-    name: "Bob Johnson",
-    email: "bob@acme.com",
-    department: "IT",
-    startDate: "2020-06-01",
-    status: "Active",
-    enabled: true  },
-  {
-    name: "Sarah Lee",
-    email: "sarah@acme.com",
-    department: "HR",
-    startDate: "2019-09-01",
-    status: "Active",
-    enabled: true  },
-  {
-    name: "Michael Brown",
-    email: "michael@acme.com",
+    name: "Employee 2",
+    email: "employee2@example.com",
+    password: "password2",
     department: "Finance",
-    startDate: "2018-11-01",
-    status: "Disabled",
-    enabled: false
+    hireDate: "2024-05-27T08:00:00.000Z",
+    roles: ["User"],
+    phoneNumber: "+1234567891",
+    status: "Not Active"
+  },
+  {
+    name: "Employee 3",
+    email: "employee3@example.com",
+    password: "password3",
+    department: "Marketing",
+    hireDate: "2024-05-27T08:00:00.000Z",
+    roles: ["Manager"],
+    phoneNumber: "+1234567892",
+    status: "Active"
+  },
+  {
+    name: "Employee 4",
+    email: "employee4@example.com",
+    password: "password4",
+    department: "Sales",
+    hireDate: "2024-05-27T08:00:00.000Z",
+    roles: ["Admin", "User"],
+    phoneNumber: "+1234567893",
+    status: "Not Active"
+  },
+  {
+    name: "Employee 5",
+    email: "employee5@example.com",
+    password: "password5",
+    department: "Research and Development (R&D)",
+    hireDate: "2024-05-27T08:00:00.000Z",
+    roles: ["User"],
+    phoneNumber: "+1234567894",
+    status: "Active"
+  },
+  {
+    name: "Employee 6",
+    email: "employee6@example.com",
+    password: "password6",
+    department: "Information Technology (IT)",
+    hireDate: "2024-05-27T08:00:00.000Z",
+    roles: ["Manager"],
+    phoneNumber: "+1234567895",
+    status: "Not Active"
+  },
+  {
+    name: "Employee 7",
+    email: "employee7@example.com",
+    password: "password7",
+    department: "Customer Service",
+    hireDate: "2024-05-27T08:00:00.000Z",
+    roles: ["Admin", "User"],
+    phoneNumber: "+1234567896",
+    status: "Active"
+  },
+  {
+    name: "Employee 8",
+    email: "employee8@example.com",
+    password: "password8",
+    department: "Operations",
+    hireDate: "2024-05-27T08:00:00.000Z",
+    roles: ["User"],
+    phoneNumber: "+1234567897",
+    status: "Not Active"
+  },
+  {
+    name: "Employee 9",
+    email: "employee9@example.com",
+    password: "password9",
+    department: "Logistics",
+    hireDate: "2024-05-27T08:00:00.000Z",
+    roles: ["Manager"],
+    phoneNumber: "+1234567898",
+    status: "Active"
+  },
+  {
+    name: "Employee 10",
+    email: "employee10@example.com",
+    password: "password10",
+    department: "Procurement",
+    hireDate: "2024-05-27T08:00:00.000Z",
+    roles: ["Admin", "User"],
+    phoneNumber: "+1234567899",
+    status: "Not Active"
   }
 ];
 
