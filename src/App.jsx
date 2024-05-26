@@ -3,6 +3,9 @@ import "./App.css";
 import ChatPage from "./pages/ChatPage";
 import ProfilePage from "./pages/ProfilePage";
 import LoginPage from "./pages/login";
+import AdminSpace from "./pages/admin/admin-space";
+import EmployeesMangagement from "./pages/admin/employees-management";
+import Dashboard from "./pages/admin/dashboard";
 
 const router = createBrowserRouter([
   {
@@ -12,6 +15,21 @@ const router = createBrowserRouter([
   {
     path: "/chat",
     element: <ChatPage />,
+  },
+  {
+    path: "/admin",
+    element: <AdminSpace />,
+    children: [
+      {
+        index: 1,
+        element: <Dashboard/>
+      },
+      {
+        path: "employees",
+        element: <EmployeesMangagement/>
+      },
+      
+    ]
   },
 ]);
 
