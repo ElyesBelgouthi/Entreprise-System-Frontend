@@ -1,8 +1,6 @@
+import { Link } from "react-router-dom"
 import { Button } from "../app/ui/button"
 import {  TableRow, TableCell } from "../app/ui/table"
-import { DialogTrigger, DialogTitle, DialogDescription, DialogHeader, DialogFooter, DialogContent, Dialog } from "../app/ui/dialog"
-import { Label } from "../app/ui/label"
-import { SelectValue, SelectTrigger, SelectItem, SelectContent, Select } from "../app/ui/select"
 
 
 const RoomRow = ({room}) => {
@@ -12,52 +10,11 @@ const RoomRow = ({room}) => {
                         <TableCell className="hidden md:table-cell">{room.members}</TableCell>
                         <TableCell className="hidden md:table-cell">Check out the new campaign launch.</TableCell>
                         <TableCell>
-                        <Dialog >
-            <DialogTrigger asChild>
+                          <Link to={'/admin/rooms/'+room.id}>
               <Button size="sm" variant="outline">
                 Manage
               </Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
-              <DialogHeader>
-                <DialogTitle>Manage Chat Room</DialogTitle>
-                <DialogDescription>Add or remove members from the chat room.</DialogDescription>
-              </DialogHeader>
-              <div className="grid gap-4 py-4">
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <Label className="text-right" htmlFor="room-name">
-                    Room Name
-                  </Label>
-                  <div className="col-span-3 font-medium">General Chat</div>
-                </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <Label className="text-right" htmlFor="members">
-                    Members
-                  </Label>
-                  <div className="col-span-3 grid gap-2">
-                    <Select id="members" multiple>
-                      <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Select members" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="john">John Doe</SelectItem>
-                        <SelectItem value="jane">Jane Smith</SelectItem>
-                        <SelectItem value="bob">Bob Johnson</SelectItem>
-                        <SelectItem value="alice">Alice Williams</SelectItem>
-                        <SelectItem value="tom">Tom Davis</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <div className="text-sm text-gray-500 dark:text-gray-400">
-                      You can add or remove members from the room.
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <DialogFooter>
-                <Button type="submit">Save Changes</Button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
+                      </Link>
                         </TableCell>
                       </TableRow>
 

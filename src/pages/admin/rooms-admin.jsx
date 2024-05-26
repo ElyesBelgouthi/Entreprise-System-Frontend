@@ -8,16 +8,16 @@ import RoomRow from "@/components/RoomRow"
 import AddRoomForm from "@/components/AddRoomForm"
 
 const DUMMY_ROOMS = [
-    { name: "Room A", members: 10 },
-    { name: "Room B", members: 5 },
-    { name: "Room C", members: 8 },
-    { name: "Room D", members: 12 },
-    { name: "Room E", members: 7 },
-    { name: "Room F", members: 9 },
-    { name: "Room G", members: 4 },
-    { name: "Room H", members: 11 },
-    { name: "Room I", members: 6 },
-    { name: "Room J", members: 13 }
+    {id:1, name: "Room A", members: 10 },
+    {id:1, name: "Room B", members: 5 },
+    {id:1, name: "Room C", members: 8 },
+    {id:1, name: "Room D", members: 12 },
+    {id:1, name: "Room E", members: 7 },
+    {id:1, name: "Room F", members: 9 },
+    {id:1, name: "Room G", members: 4 },
+    {id:1, name: "Room H", members: 11 },
+    {id:1, name: "Room I", members: 6 },
+    {id:1, name: "Room J", members: 13 }
   ];
 
 const RoomsAdmin = () => {

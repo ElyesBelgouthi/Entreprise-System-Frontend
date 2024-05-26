@@ -8,6 +8,7 @@ import EmployeesMangagement from "./pages/admin/employees-management";
 import Dashboard from "./pages/admin/dashboard";
 import Settings from "./pages/admin/settings";
 import RoomsAdmin from "./pages/admin/rooms-admin";
+import RoomEdit from "./pages/admin/room-edit";
 
 const router = createBrowserRouter([
   {
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
       {
         path: "rooms",
         element: <RoomsAdmin/>
+      },
+      {
+        path: "rooms/:id",
+        element: <RoomEdit/>
       },
       {
         path: "settings",
