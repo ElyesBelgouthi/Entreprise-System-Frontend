@@ -35,6 +35,14 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "../app/ui/popover";
+import { Checkbox } from "../app/ui/checkbox"
+
+const rolesOptions = [
+    { value: 'Admin', label: 'Admin' },
+    { value: 'User', label: 'User' },
+    { value: 'Manager', label: 'Manager' },
+    // Add other roles as needed
+  ];
 
 const Departments = [
   "Human Resources (HR)",
@@ -87,9 +95,10 @@ const AddEmployeeForm = () => {
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Are you absolutely sure?</DialogTitle>
-          <DialogDescription>
-            <ScrollArea className="h-[600px] rounded-md border p-2">
+          <DialogTitle>New Employee</DialogTitle>
+
+        </DialogHeader>
+        <ScrollArea className="h-[600px] rounded-md border p-2">
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 p-6">
                   <FormField
@@ -155,6 +164,36 @@ const AddEmployeeForm = () => {
                       </FormItem>
                     )}
                   />
+                   <FormField
+  control={form.control}
+  name="roles"
+  render={({ field }) => (
+    <FormItem>
+      <FormLabel>Roles</FormLabel>
+      <FormControl>
+        <div className="space-y-2">
+          {rolesOptions.map((role) => (
+            <div key={role.value} className="flex items-center space-x-2">
+              <Checkbox
+                id={role.value}
+                checked={field.value.includes(role.value)}
+                onCheckedChange={(checked) => {
+                  const newRoles = checked
+                    ? [...field.value, role.value]
+                    : field.value.filter((value) => value !== role.value);
+                  field.onChange(newRoles);
+                }}
+              />
+              <label htmlFor={role.value}>{role.label}</label>
+            </div>
+          ))}
+        </div>
+      </FormControl>
+      <FormMessage />
+    </FormItem>
+  )}
+/>
+
                   <FormField
                     control={form.control}
                     name="phoneNumber"
@@ -209,8 +248,6 @@ const AddEmployeeForm = () => {
                 </form>
               </Form>
             </ScrollArea>
-          </DialogDescription>
-        </DialogHeader>
       </DialogContent>
     </Dialog>
   );
