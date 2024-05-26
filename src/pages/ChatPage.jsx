@@ -5,18 +5,12 @@ import { Button } from "../app/ui/button";
 import { MessageCircleIcon, PaperclipIcon, SendIcon } from "../app/ui/icons";
 
 import AsideChat from "@/components/AsideChat";
+import Header from "@/components/Header";
 
 const ChatPage = () => {
   return (
     <div className="flex h-screen w-full flex-col">
-      <header className="flex h-16 shrink-0 items-center border-b bg-gray-100 px-6 dark:border-gray-700 dark:bg-gray-900">
-        <a className="flex items-center gap-2" href="#">
-          <MessageCircleIcon className="h-6 w-6 text-gray-700 dark:text-gray-50" />
-          <span className="text-lg font-semibold text-gray-700 dark:text-gray-50">
-            Chat
-          </span>
-        </a>
-      </header>
+      <Header />
       <div className="flex h-full">
         <AsideChat />
         <main className="flex flex-1 flex-col">
