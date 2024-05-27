@@ -9,8 +9,52 @@ import {
 import { Label } from "../app/ui/label";
 import { Input } from "../app/ui/input";
 import { Button } from "../app/ui/button";
+import { useFormik } from 'formik';
+import AuthService from "@/services/auth.service";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setUserToken } from "@/redux/actions";
+
 
 const LoginPage = () => {
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const handleSubmit = (values) => {
+
+    const data = {
+      username: values.email,
+      password: values.password
+    };
+    
+    AuthService.login(data)
+    .then((response) => {
+      console.log(response.data);
+      dispatch(setUserToken({
+        userToken: response.data.access_token,
+        userData: response.data.user
+      }));
+      navigate("/");
+    }).catch((error) => {
+      console.log("Error");
+      console.log(error);
+    });
+
+  }
+
+  const formik = useFormik({
+    initialValues: {
+      email: '',
+      password: '',
+    },
+    onSubmit: values => {
+      console.log("Form submitted");
+      console.log(values);
+      handleSubmit(values);
+    },
+  });
+
   return (
     <div className="flex h-screen w-full items-center justify-center bg-gray-100 px-4 dark:bg-gray-950">
       <Card className="w-full max-w-md">
@@ -21,30 +65,38 @@ const LoginPage = () => {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
-            <Input
-              id="email"
-              placeholder="m@example.com"
-              required
-              type="email"
-            />
-          </div>
-          <div className="space-y-2">
-            <div className="flex items-center justify-between">
-              <Label htmlFor="password">Password</Label>
-              <a
-                className="text-sm font-medium text-gray-900 hover:underline dark:text-gray-50"
-                href="#"
-              >
-                Forgot your password
-              </a>
+          <form onSubmit={formik.handleSubmit}>
+
+            <div className="space-y-2">
+              <Label htmlFor="email">Email</Label>
+              <Input
+                id="email"
+                placeholder="m@example.com"
+                required
+                type="email"
+                onChange={formik.handleChange}
+                value={formik.values.email}
+              />
             </div>
-            <Input id="password" required type="password" />
-          </div>
-          <Button className="w-full" type="submit">
-            Sign In
-          </Button>
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <Label htmlFor="password">Password</Label>
+                <a
+                  className="text-sm font-medium text-gray-900 hover:underline dark:text-gray-50"
+                  href="#"
+                >
+                  Forgot your password
+                </a>
+              </div>
+              <Input id="password" required type="password" 
+                      onChange={formik.handleChange}
+                      value={formik.values.password}
+              />
+            </div>
+            <Button className="w-full" type="submit">
+              Sign In
+            </Button>
+          </form>
         </CardContent>
         <CardFooter className="text-center text-sm">
           <div className="flex items-center justify-center gap-2">
