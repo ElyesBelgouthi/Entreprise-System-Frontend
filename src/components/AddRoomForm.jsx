@@ -14,33 +14,28 @@ import {
 import { Label } from "../app/ui/label";
 import api from "@/services/api";
 
-const AddRoomForm = () => {
+const AddRoomForm = ({ sendRefetch }) => {
   const { control, handleSubmit } = useForm({
     defaultValues: {
       name: "",
       userIds: [],
     },
   });
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const onSubmit = async (values) => {
     try {
       const response = await api.post("rooms", values);
       console.log("Room created:", response.data);
-      setIsDialogOpen(false);
+      sendRefetch((state) => !state);
     } catch (error) {
       console.error("Error creating room:", error);
     }
   };
 
   return (
-    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+    <Dialog>
       <DialogTrigger asChild>
-        <Button
-          className="ml-auto"
-          size="sm"
-          onClick={() => setIsDialogOpen(true)}
-        >
+        <Button className="ml-auto" size="sm">
           Create Room
         </Button>
       </DialogTrigger>
@@ -70,9 +65,11 @@ const AddRoomForm = () => {
                 )}
               />
             </div>
-            <Button type="submit" className="">
-              Create Room
-            </Button>
+            <DialogTrigger asChild>
+              <Button type="submit" className="">
+                Create Room
+              </Button>
+            </DialogTrigger>
           </div>
         </form>
       </DialogContent>

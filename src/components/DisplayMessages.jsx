@@ -1,7 +1,7 @@
-import React, { useEffect, useRef } from 'react';
-import { useSelector } from 'react-redux';
-import MyMessage from './MyMessage';
-import OtherMessage from './OtherMessage';
+import React, { useEffect, useRef } from "react";
+import { useSelector } from "react-redux";
+import MyMessage from "./MyMessage";
+import OtherMessage from "./OtherMessage";
 
 function DisplayMessages() {
   const messages = useSelector((state) => state.mainReducer.messagesList);
@@ -10,9 +10,8 @@ function DisplayMessages() {
   const bottomRef = useRef(null);
 
   useEffect(() => {
-    // Scroll to the bottom immediately when messages change
     if (bottomRef.current) {
-      bottomRef.current.scrollIntoView({ behavior: 'auto' });
+      bottomRef.current.scrollIntoView({ behavior: "auto" });
     }
   }, [messages]);
 

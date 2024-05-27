@@ -11,7 +11,7 @@ import {
 import { AvatarImage, AvatarFallback, Avatar } from "../../app/ui/avatar";
 import { NavLink, Outlet } from "react-router-dom";
 
-const AdminSpace = (props) => {
+const AdminSpace = () => {
   return (
     <div className="grid min-h-screen w-full grid-cols-[280px_1fr] bg-gray-100 dark:bg-gray-950">
       <div className="hidden border-r bg-gray-100/40 dark:bg-gray-800/40 lg:block">
@@ -105,8 +105,7 @@ const AdminSpace = (props) => {
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>Settings</DropdownMenuItem>
-              <DropdownMenuSeparator />
+
               <DropdownMenuItem>Logout</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
