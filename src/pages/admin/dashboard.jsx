@@ -2,51 +2,6 @@ import DashboardCard from "@/components/DashboardCard";
 import api from "@/services/api";
 import { useEffect, useState } from "react";
 
-const DUMMY_STATS = [
-  {
-    title: "Total Employees",
-    change: "+1,234",
-    changePerentage: "+15% from last month",
-    icon: "users",
-  },
-  {
-    title: "Active Employees",
-    change: "+1,100",
-    changePerentage: "+12% from last month",
-    icon: "users",
-  },
-  {
-    title: "Disabled Employees",
-    change: "+134",
-    changePerentage: "+3% from last month",
-    icon: "users",
-  },
-  {
-    title: "New Hires",
-    change: "+75",
-    changePerentage: "+5% from last month",
-    icon: "users",
-  },
-  {
-    title: "Number of Departments",
-    change: "+25",
-    changePerentage: "+2% from last month",
-    icon: "building",
-  },
-  {
-    title: "Number of Managers",
-    change: "+150",
-    changePerentage: "+4% from last month",
-    icon: "users",
-  },
-  {
-    title: "Number of Rooms",
-    change: "+50",
-    changePerentage: "+3% from last month",
-    icon: "building",
-  },
-];
-
 const Dashboard = () => {
   const [stats, setStats] = useState(null);
 
@@ -71,14 +26,14 @@ const Dashboard = () => {
           <DashboardCard
             stats={{
               title: "Total Employees",
-              change: "+" + stats.nonDeletedUsers,
+              change: "+" + stats.totalUsers,
               icon: "users",
             }}
           />
           <DashboardCard
             stats={{
               title: "Active Employees",
-              change: "+" + stats.totalUsers,
+              change: "+" + stats.nonDeletedUsers,
               icon: "users",
             }}
           />
