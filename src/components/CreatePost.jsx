@@ -64,6 +64,7 @@ const CreatePost = () => {
       setContent("");
       setFile(null);
       setShowFileInput(false);
+      window.location.reload();
     } catch (err) {
       console.error("Error creating post:", err);
     }

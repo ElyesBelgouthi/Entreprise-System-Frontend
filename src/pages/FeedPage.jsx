@@ -10,32 +10,31 @@ import { useQuery, gql } from "@apollo/client";
 import CreatePost from "../components/CreatePost";
 import FeedPost from "@/components/FeedPost";
 import { LOAD_POSTS } from "@/GraphQL/Queries";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPostsList, setUsersList } from "@/redux/actions";
 import FullScreenLoader from "@/components/FullScreenLoader";
 import MainService from "@/services/main.service";
 
-
-
 const FeedPage = () => {
   const { error, loading, data } = useQuery(LOAD_POSTS);
+  const [refresh, setRefresh] = useState(false);
+
   const dispatch = useDispatch();
 
   const posts = useSelector((state) => state.mainReducer.postsList);
   const users = useSelector((state) => state.mainReducer.usersList);
 
   const fetchData = async () => {
-    await MainService.getUsers().then((response) => {
-      console.log(response.data);
-      dispatch(setUsersList(
-        response.data
-      ));
-    }).catch((error) => {
-      console.log(error);
-    
-    });
-  }
+    await MainService.getUsers()
+      .then((response) => {
+        console.log(response.data);
+        dispatch(setUsersList(response.data));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   useEffect(() => {
     console.log(error);
@@ -44,24 +43,28 @@ const FeedPage = () => {
     users?.length === 0 && fetchData();
 
     if (data) dispatch(setPostsList(data.posts));
-    
-
-  }, [data]);
+  }, [data, refresh]);
 
   return (
     <>
       <main className="flex-1 bg-gray-100 dark:bg-gray-900">
-        <div className="container py-8">
-          <div className="grid gap-8 lg:grid-cols-[1fr_300px]">
+        <div className="container py-8 px-36">
+          <div className="grid gap-8">
             <div className="space-y-8">
               <CreatePost />
               <div className="space-y-4">
-              {loading && <FullScreenLoader />}
+                {loading && <FullScreenLoader />}
                 {error && <p>Error loading posts</p>}
-                {posts && posts.map((post, index) => {
-                  return <FeedPost post={post} key={index} />;
-                })}
-
+                {posts &&
+                  posts.map((post, index) => {
+                    return (
+                      <FeedPost
+                        setRefresh={setRefresh}
+                        post={post}
+                        key={index}
+                      />
+                    );
+                  })}
               </div>
             </div>
             {/* <div className="space-y-8">
