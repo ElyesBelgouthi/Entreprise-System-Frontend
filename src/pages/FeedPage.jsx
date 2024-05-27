@@ -12,8 +12,9 @@ import FeedPost from "@/components/FeedPost";
 import { LOAD_POSTS } from "@/GraphQL/Queries";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setPostsList } from "@/redux/actions";
+import { setPostsList, setUsersList } from "@/redux/actions";
 import FullScreenLoader from "@/components/FullScreenLoader";
+import MainService from "@/services/main.service";
 
 
 
@@ -22,12 +23,25 @@ const FeedPage = () => {
   const dispatch = useDispatch();
 
   const posts = useSelector((state) => state.mainReducer.postsList);
+  const users = useSelector((state) => state.mainReducer.usersList);
 
-  
+  const fetchData = async () => {
+    await MainService.getUsers().then((response) => {
+      console.log(response.data);
+      dispatch(setUsersList(
+        response.data
+      ));
+    }).catch((error) => {
+      console.log(error);
+    
+    });
+  }
 
   useEffect(() => {
     console.log(error);
     console.log(data);
+
+    users?.length === 0 && fetchData();
 
     if (data) dispatch(setPostsList(data.posts));
     

@@ -6,6 +6,8 @@ const intialState = {
     messagesList: [],
     onlineUsers: [],
     postsLists: [],
+    notifications: [],
+    notificationIsRead: false
 }
 
 export default intialState;

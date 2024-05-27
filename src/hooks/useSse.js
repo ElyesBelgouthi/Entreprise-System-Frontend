@@ -1,60 +1,53 @@
-import { addUser, deleteUser, updateUser } from '@/redux/actions';
-import store from '@/redux/store/store';
-import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useEffect, useState, useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { addNotification, addUser, deleteUser, toggleNotificationIsRead, updateUser } from '@/redux/actions';
 
 const EventTypes = {
-    USER_CREATED: 'user.created',
-    USER_UPDATED: 'user.updated',
-    USER_DELETED: 'user.deleted',
+  USER_CREATED: 'user.created',
+  USER_UPDATED: 'user.updated',
+  USER_DELETED: 'user.deleted',
+  POST_CREATED: 'post.created',
 };
 
-const useSse = (url) => {
+const useSse = (url, userId, role) => {
   const [events, setEvents] = useState([]);
-
   const dispatch = useDispatch();
 
+  const addUserHandler = useCallback((user) => dispatch(addUser(user)), [dispatch]);
+  const updateUserHandler = useCallback((user) => dispatch(updateUser(user)), [dispatch]);
+  const deleteUserHandler = useCallback((user) => dispatch(deleteUser(user)), [dispatch]);
+  const addNotificationHandler = useCallback((post) => 
+    {
+      dispatch(addNotification(post))
+      dispatch(toggleNotificationIsRead());
+    }
+  , [dispatch]);
 
-  const AddUser = (user) => {
-    dispatch(addUser(user));
-  }
-
-  const UpdateUser = (user) => {
-    dispatch(updateUser(user));
-  }
-
-  const RemoveUser = (user) => {
-    dispatch(deleteUser(user));
-  }
-
-  const handleEvent = (event) => {
+  const handleEvent = useCallback((event) => {
     console.log('event', event);
     switch (event.type) {
       case EventTypes.USER_CREATED:
-        AddUser(event.data);
+        addUserHandler(event.data);
         break;
       case EventTypes.USER_UPDATED:
-        UpdateUser(event.data);
+        updateUserHandler(event.data);
         break;
       case EventTypes.USER_DELETED:
-        RemoveUser(event.data);
+        deleteUserHandler(event.data);
+        break;
+      case EventTypes.POST_CREATED:
+        addNotificationHandler(event);
         break;
       default:
         console.error('Unknown event type:', event.type);
     }
-  }
-
-
+  }, [addUserHandler, updateUserHandler, deleteUserHandler, addNotificationHandler]);
 
   useEffect(() => {
-    const token = store.getState().mainReducer.userToken;
-    const userId = store.getState().mainReducer.userData.id;
-    const role = store.getState().mainReducer.userData.role;
+    if (!userId || !role) return;
 
-    console.log('Initializing SSE connection with token:', token);
-    console.log('User ID:', userId);
+    console.log('Initializing SSE connection with userId:', userId, 'and role:', role);
 
-    // Create EventSource with token and userId in query parameters
     const eventSource = new EventSource(`${url}?userId=${userId}&role=${role}`);
 
     eventSource.onopen = () => {
@@ -62,15 +55,9 @@ const useSse = (url) => {
     };
 
     eventSource.onmessage = (event) => {
-      console.log('event', event);
       const newEvent = JSON.parse(event.data);
-
-        console.log('newEvent', newEvent);
-        handleEvent(newEvent);
-     
-
-
-
+      console.log('newEvent', newEvent);
+      handleEvent(newEvent);
       setEvents((prevEvents) => [...prevEvents, newEvent]);
     };
 
@@ -82,7 +69,7 @@ const useSse = (url) => {
     return () => {
       eventSource.close();
     };
-  }, [url]);
+  }, [url, userId, role, handleEvent]);
 
   return events;
 };

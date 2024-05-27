@@ -21,6 +21,7 @@ import RoomEdit from "./pages/admin/room-edit";
 import MainLayout from "./pages/MainLayout";
 import useSse from "./hooks/useSse";
 import client from "./GraphQL/apollo";
+import { useSelector } from "react-redux";
 
 const router = createBrowserRouter([
   {
@@ -90,7 +91,13 @@ const router = createBrowserRouter([
 
 function App() {
 
-  const events = useSse('http://localhost:3000/events/subscribe');
+  const userToken = useSelector((state) => state.mainReducer?.userToken);
+  const userId = useSelector((state) => state.mainReducer?.userData?.id);
+  const role = useSelector((state) => state.mainReducer?.userData?.role);
+
+  const events = useSse('http://localhost:3000/events/subscribe', userId, role);
+
+    
 
 
   return (
