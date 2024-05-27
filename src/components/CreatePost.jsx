@@ -16,12 +16,12 @@ const CreatePost = () => {
       await createPost({
         variables: {
           createPostInput: {
-            authorId: 1, // Replace with dynamic ID if needed
+            authorId: 1,
             content: content,
           },
         },
       });
-      setContent(""); // Clear the textarea after submission
+      setContent("");
     } catch (err) {
       console.error("Error creating post:", err);
     }
