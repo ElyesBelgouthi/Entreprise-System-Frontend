@@ -23,6 +23,17 @@ export const CREATE_POST = gql`
   }
 `;
 
+export const DELETE_POST = gql`
+  mutation removePost($id: Int!) {
+    removePost(id: $id) {
+      id
+      content
+      path
+      createdAt
+    }
+  }
+`;
+
 export const CREATE_COMMENT = gql`
   mutation createComment($createCommentInput: CreateCommentInput!) {
     createComment(createCommentInput: $createCommentInput) {

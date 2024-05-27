@@ -1,5 +1,5 @@
 import { Button } from "../../app/ui/button";
-import { Input } from "../../app/ui/input";
+import logo from "../../assets/logo.png";
 import {
   DropdownMenuTrigger,
   DropdownMenuLabel,
@@ -16,15 +16,13 @@ const AdminSpace = () => {
     <div className="grid min-h-screen w-full grid-cols-[280px_1fr] bg-gray-100 dark:bg-gray-950">
       <div className="hidden border-r bg-gray-100/40 dark:bg-gray-800/40 lg:block">
         <div className="flex h-full max-h-screen flex-col gap-2">
-          <div className="flex h-[60px] items-center border-b px-6">
-            <a className="flex items-center gap-2 font-semibold" href="#">
-              <Package2Icon className="h-6 w-6" />
-              <span className="">Entreprise System</span>
-            </a>
-            <Button className="ml-auto h-8 w-8" size="icon" variant="outline">
-              <BellIcon className="h-4 w-4" />
-            </Button>
-          </div>
+          <a
+            className="m-6 mb-0 hidden lg:flex w-72 overflow-visible lg:items-center lg:space-x-2"
+            href="#"
+          >
+            <img src={logo} alt="logo" className="h-10 w-10 " />
+            <h1 className="text-[20px] font-bold ">Enterprise System</h1>
+          </a>
           <div className="flex-1 overflow-auto py-2">
             <nav className="grid items-start px-4 pt-8 space-y-4 text-sm font-medium">
               <NavLink
@@ -74,18 +72,7 @@ const AdminSpace = () => {
             <Package2Icon className="h-6 w-6" />
             <span className="sr-only">Home</span>
           </a>
-          <div className="w-full flex-1">
-            <form>
-              <div className="relative">
-                <SearchIcon className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500 dark:text-gray-400" />
-                <Input
-                  className="w-full bg-white shadow-none appearance-none pl-8 md:w-2/3 lg:w-1/3 dark:bg-gray-950"
-                  placeholder="Search employees..."
-                  type="search"
-                />
-              </div>
-            </form>
-          </div>
+          <div className="w-full flex-1"></div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
@@ -93,7 +80,7 @@ const AdminSpace = () => {
                 size="icon"
                 variant="ghost"
               >
-                <Avatar>
+                <Avatar className="bg-blue-500">
                   <AvatarImage
                     alt="@jaredpalmer"
                     src="/placeholder-avatar.jpg"

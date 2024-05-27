@@ -1,7 +1,7 @@
 import React from "react";
 import { AvatarImage, AvatarFallback, Avatar } from "../app/ui/avatar";
+
 const formatDateTime = (time) => {
-  //to display the time in the format of 2021/09/01 12:00 without moment
   const date = new Date(time);
   const year = date.getFullYear();
   const month = date.getMonth() + 1;
@@ -9,7 +9,7 @@ const formatDateTime = (time) => {
   const hours = date.getHours();
   const minutes = date.getMinutes();
   return `${year}/${month}/${day} ${hours}:${minutes}`;
-}
+};
 
 const OtherMessage = ({ name, message, time }) => {
   return (
