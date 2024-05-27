@@ -5,6 +5,7 @@ export const CREATE_POST = gql`
     createPost(createPostInput: $createPostInput) {
       id
       content
+      path
       createdAt
       author {
         id

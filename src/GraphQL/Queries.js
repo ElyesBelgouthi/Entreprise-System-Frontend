@@ -5,6 +5,7 @@ export const LOAD_POSTS = gql`
     posts {
       id
       content
+      path
       createdAt
       author {
         id
