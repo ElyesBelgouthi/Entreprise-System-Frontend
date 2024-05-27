@@ -117,3 +117,17 @@ export const addCommentToPost = (comment) => {
 }
 
 
+export const addNotification = (notification) => {
+    return {
+        type: "ADD_NOTIFICATION",
+        payload: notification,
+    };
+}
+
+export const toggleNotificationIsRead = () => {
+    return {
+        type: "TOGGLE_NOTIFICATION_IS_READ",
+    };
+}
+
+

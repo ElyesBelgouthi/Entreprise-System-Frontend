@@ -16,8 +16,23 @@ import { AvatarImage, AvatarFallback, Avatar } from "../app/ui/avatar";
 import { Link, NavLink } from "react-router-dom";
 
 import logo from "../assets/logo.png";
+import NotificationsDisplay from "./NotificationsDisplay";
+import { toggleNotificationIsRead } from "@/redux/actions";
+import { useDispatch, useSelector } from "react-redux";
 
 const Header = () => {
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.mainReducer.userData);
+
+  const handleClick = (e) => {
+    e.preventDefault();
+    console.log("notificationState", notificationState);
+    dispatch(toggleNotificationIsRead());
+    console.log("notificationState", notificationState);
+  };
+
+
+  const notificationState = useSelector((state) => state.mainReducer.notificationIsRead);
   return (
     <header className="flex h-16 w-full shrink-0 items-center px-4 md:px-6 border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950">
       <a
@@ -61,12 +76,14 @@ const Header = () => {
             >
               <Avatar>
                 <AvatarImage alt="@jaredpalmer" src="/placeholder-avatar.jpg" />
-                <AvatarFallback>EB</AvatarFallback>
+                <AvatarFallback>
+                  {user.username.slice(0, 2).toUpperCase()}
+                </AvatarFallback>
               </Avatar>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Elyes Belgouthi</DropdownMenuLabel>
+            <DropdownMenuLabel>{user.username}</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
               <Link to="/profile">Manage Profile</Link>
@@ -76,56 +93,28 @@ const Header = () => {
         </DropdownMenu>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
+            
             <Button
-              className="rounded-full border border-gray-200 w-8 h-8 dark:border-gray-800"
+              className={`rounded-full border border-gray-200 w-8 h-8 dark:border-gray-800
+              ${!notificationState ? "bg-blue-500" : ""}
+              `}
               size="icon"
               variant="ghost"
+              onClick={handleClick}
+
+              
             >
-              <BellIcon className="w-4 h-4" />
+              <BellIcon className={` w-4 h-4 ${!notificationState ? "text-white" : "text-gray-500"}`} 
+              />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
+          
+          <DropdownMenuContent align="end"
+          >
+            
             <DropdownMenuLabel>Notifications</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <div className="mb-4 grid grid-cols-[25px_1fr] items-start pb-4 last:mb-0 last:pb-0">
-                <span className="flex h-2 w-2 translate-y-1.5 rounded-full bg-blue-500" />
-                <div className="grid gap-1">
-                  <p className="text-sm font-medium">
-                    Your post has been liked by 10 people.
-                  </p>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">
-                    5 min ago
-                  </p>
-                </div>
-              </div>
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <div className="mb-4 grid grid-cols-[25px_1fr] items-start pb-4 last:mb-0 last:pb-0">
-                <span className="flex h-2 w-2 translate-y-1.5 rounded-full bg-blue-500" />
-                <div className="grid gap-1">
-                  <p className="text-sm font-medium">
-                    You have a new comment on your post.
-                  </p>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">
-                    1 min ago
-                  </p>
-                </div>
-              </div>
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <div className="mb-4 grid grid-cols-[25px_1fr] items-start pb-4 last:mb-0 last:pb-0">
-                <span className="flex h-2 w-2 translate-y-1.5 rounded-full bg-blue-500" />
-                <div className="grid gap-1">
-                  <p className="text-sm font-medium">
-                    You have a new connection request.
-                  </p>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">
-                    2 hours ago
-                  </p>
-                </div>
-              </div>
-            </DropdownMenuItem>
+              <NotificationsDisplay />
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

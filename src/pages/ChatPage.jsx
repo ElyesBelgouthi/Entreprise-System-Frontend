@@ -74,20 +74,8 @@ const ChatPage = () => {
 
 
 
-  const fetchData = async () => {
-    await MainService.getUsers().then((response) => {
-      console.log(response.data);
-      dispatch(setUsersList(
-        response.data
-      ));
-    }).catch((error) => {
-      console.log(error);
-    
-    });
-  }
 
   useEffect(() => {
-    fetchData();
     fetchOnlineUsers();
 
     return () => {
