@@ -5,90 +5,129 @@ import { Button } from "../app/ui/button";
 import { Label } from "../app/ui/label";
 import { Textarea } from "../app/ui/textarea";
 import { CardContent, Card } from "../app/ui/card";
-import { useDispatch } from "react-redux";
-import { addPost } from "@/redux/actions";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import api from "@/services/api";
 
 const CreatePost = () => {
   const [content, setContent] = useState("");
+  const [file, setFile] = useState(null);
+  const [showFileInput, setShowFileInput] = useState(false);
+
   const [createPost, { data, loading, error }] = useMutation(CREATE_POST);
-  const dispatch = useDispatch();
+
+  const handleFileUpload = async (file) => {
+    const formData = new FormData();
+    const extension = file.name.split(".").pop().toLowerCase();
+    const isImage = ["jpg", "jpeg", "png", "gif"].includes(extension);
+    const isDocument = ["pdf", "doc", "docx"].includes(extension);
+
+    if (isImage) {
+      formData.append("image", file);
+    } else if (isDocument) {
+      formData.append("document", file);
+    } else {
+      throw new Error("Unsupported file type");
+    }
+
+    try {
+      const endpoint = isImage ? "files/image" : "files/document";
+      const response = await api.post(endpoint, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      return response.data.path;
+    } catch (error) {
+      console.error("Error uploading file:", error);
+      throw error;
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      let path = null;
+      console.log(file);
+      if (file) {
+        path = await handleFileUpload(file);
+        console.log(path);
+      }
+
       await createPost({
         variables: {
           createPostInput: {
-            authorId: 1,
+            authorId: 11,
             content: content,
+            path: path,
           },
         },
-      }).then((response) => {
-        console.log("resp", response);
-        dispatch(addPost(response.data.createPost));
-        toast.success("Post created successfully!");
-
       });
-      console.log("Post created successfully!", data);
       setContent("");
+      setFile(null);
+      setShowFileInput(false);
     } catch (err) {
-
-      toast.error("Error creating post !");
-
       console.error("Error creating post:", err);
     }
   };
 
   return (
-    <>
-      <Card>
-        <CardContent>
-          <form className="grid gap-4 pt-6" onSubmit={handleSubmit}>
-            <div className="grid gap-2">
-              <Label htmlFor="post-content">What's on your mind?</Label>
-              <Textarea
-                id="post-content"
-                placeholder="Share your thoughts..."
-                rows={3}
-                value={content}
-                onChange={(e) => setContent(e.target.value)}
+    <Card>
+      <CardContent>
+        <form className="grid gap-4 pt-6" onSubmit={handleSubmit}>
+          <div className="grid gap-2">
+            <Label htmlFor="post-content">What's on your mind?</Label>
+            <Textarea
+              id="post-content"
+              placeholder="Share your thoughts..."
+              rows={3}
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+            />
+          </div>
+          <div className="grid gap-2">
+            {showFileInput && (
+              <input
+                type="file"
+                accept="image/*, application/pdf"
+                onChange={(e) => setFile(e.target.files[0])}
               />
+            )}
+          </div>
+          <div className="grid grid-cols-[1fr_auto] items-center gap-4">
+            <div className="flex items-center gap-2">
+              <Button
+                size="icon"
+                variant="ghost"
+                type="button"
+                onClick={() => setShowFileInput(!showFileInput)}
+              >
+                <PaperclipIcon className="h-5 w-5" />
+                <span className="sr-only">Add attachment</span>
+              </Button>
             </div>
-            <div className="grid grid-cols-[1fr_auto] items-center gap-4">
-              <div className="flex items-center gap-2">
-                <Button size="icon" variant="ghost">
-                  <ImageIcon className="h-5 w-5" />
-                  <span className="sr-only">Add image</span>
-                </Button>
-                <Button size="icon" variant="ghost">
-                  <PaperclipIcon className="h-5 w-5" />
-                  <span className="sr-only">Add attachment</span>
-                </Button>
-              </div>
-              <div className="flex gap-2">
-                <Button
-                  variant="outline"
-                  type="button"
-                  onClick={() => setContent("")}
-                >
-                  Cancel
-                </Button>
-                <Button type="submit" disabled={loading}>
-                  {loading ? "Posting..." : "Post"}
-                </Button>
-              </div>
+            <div className="flex gap-2">
+              <Button
+                variant="outline"
+                type="button"
+                onClick={() => {
+                  setContent("");
+                  setFile(null);
+                  setShowFileInput(false);
+                }}
+              >
+                Cancel
+              </Button>
+              <Button type="submit" disabled={loading}>
+                {loading ? "Posting..." : "Post"}
+              </Button>
             </div>
-          </form>
-          {/* {error && (
-            <p className="text-red-500">Error creating post: {error.message}</p>
-          )}
-          {data && <p className="text-green-500">Post created successfully!</p>} */}
-        </CardContent>
-      </Card>
-      <ToastContainer />
-
-    </>
+          </div>
+        </form>
+        {error && (
+          <p className="text-red-500">Error creating post: {error.message}</p>
+        )}
+        {data && <p className="text-green-500">Post created successfully!</p>}
+      </CardContent>
+    </Card>
   );
 };
 
