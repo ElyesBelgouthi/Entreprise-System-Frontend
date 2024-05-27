@@ -1,4 +1,13 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import {
+  ApolloClient,
+  InMemoryCache,
+  ApolloProvider,
+  HttpLink,
+  from,
+} from "@apollo/client";
+import { onError } from "@apollo/client/link/error";
+
 import "./App.css";
 import ChatPage from "./pages/ChatPage";
 import ProfilePage from "./pages/ProfilePage";
@@ -41,30 +50,53 @@ const router = createBrowserRouter([
     children: [
       {
         index: 1,
-        element: <Dashboard/>
+        element: <Dashboard />,
       },
       {
         path: "employees",
-        element: <EmployeesMangagement/>
+        element: <EmployeesMangagement />,
       },
       {
         path: "rooms",
-        element: <RoomsAdmin/>
+        element: <RoomsAdmin />,
       },
       {
         path: "rooms/:id",
-        element: <RoomEdit/>
+        element: <RoomEdit />,
       },
       {
         path: "settings",
-        element: <Settings/>
+        element: <Settings />,
       },
-    ]
+    ],
   },
 ]);
 
+const errorLink = onError(({ graphqlErrors, networkError }) => {
+  if (graphqlErrors) {
+    graphqlErrors.map(({ message, location, path }) => {
+      alert(`GraphQL error ${message}`);
+    });
+  }
+});
+
+const link = from([
+  new HttpLink({
+    uri: "http://localhost:3000/graphql",
+  }),
+]);
+
+const client = new ApolloClient({
+  cache: new InMemoryCache(),
+  link: link,
+});
+
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <ApolloProvider client={client}>
+      <RouterProvider router={router} />
+    </ApolloProvider>
+  );
 }
 
 export default App;

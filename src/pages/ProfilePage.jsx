@@ -13,7 +13,7 @@ import { Button } from "../app/ui/button";
 
 const ProfilePage = () => {
   return (
-    <main className="px-36">
+    <main className="p-10 bg-gray-300">
       <Card className="w-full ">
         <CardHeader>
           <CardTitle>Profile</CardTitle>

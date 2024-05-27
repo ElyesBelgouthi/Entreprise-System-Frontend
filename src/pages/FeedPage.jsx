@@ -1,5 +1,3 @@
-import { Button } from "../app//ui/button";
-
 import {
   CardContent,
   Card,
@@ -7,10 +5,12 @@ import {
   CardDescription,
   CardHeader,
 } from "../app/ui/card";
-import { AvatarImage, AvatarFallback, Avatar } from "../app/ui/avatar";
+import { useQuery, gql } from "@apollo/client";
+
 import CreatePost from "../components/CreatePost";
-import Header from "../components/Header";
 import FeedPost from "@/components/FeedPost";
+import { LOAD_POSTS } from "@/GraphQL/Queries";
+import { useEffect } from "react";
 
 const DUMMY_POSTS = [
   {
@@ -59,6 +59,13 @@ const DUMMY_POSTS = [
 ];
 
 const FeedPage = () => {
+  const { error, loading, data } = useQuery(LOAD_POSTS);
+
+  useEffect(() => {
+    console.log(error);
+    console.log(data);
+  }, [data]);
+
   return (
     <>
       <main className="flex-1 bg-gray-100 dark:bg-gray-900">
