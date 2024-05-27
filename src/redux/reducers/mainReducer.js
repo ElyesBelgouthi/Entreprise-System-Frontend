@@ -140,6 +140,36 @@
                     notificationIsRead: state.notificationIsRead ? false : true,
                 }
 
+            case "SET_ROOMS_LIST":
+                return {
+                    ...state,
+                    roomsList: action.payload,
+                }
+
+            case "ADD_ROOM":
+                return {
+                    ...state,
+                    roomsList: [action.payload, ...state.roomsList],
+                }
+
+            case "UPDATE_ROOM":
+                return {
+                    ...state,
+                    roomsList: state.roomsList.map((room) => {
+                        if (room.id == action.payload.id) {
+                            return action.payload;
+                        }
+                        return room;
+                    }),
+                }
+
+            case "DELETE_ROOM":
+                return {
+                    ...state,
+                    roomsList: state.roomsList.filter((room) => room.id !== action.payload.id),
+                }
+                
+
 
 
 

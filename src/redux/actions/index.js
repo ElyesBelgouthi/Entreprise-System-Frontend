@@ -130,4 +130,34 @@ export const toggleNotificationIsRead = () => {
     };
 }
 
+export const setRoomsList = (roomsList) => {
+    return {
+        type: "SET_ROOMS_LIST",
+        payload: roomsList,
+    };
+}
+
+export const addRoom = (room) => {
+    return {
+        type: "ADD_ROOM",
+        payload: room,
+    };
+}
+
+export const updateRoom = (room) => {
+    return {
+        type: "UPDATE_ROOM",
+        payload: room,
+    };
+}
+
+export const deleteRoom = (room) => {
+    return {
+        type: "DELETE_ROOM",
+        payload: room,
+    };
+}
+
+
+
 

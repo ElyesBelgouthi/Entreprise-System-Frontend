@@ -32,7 +32,12 @@ function MessageInput() {
             messageContent: messageInput
         }
 
+        if (selectedConversation.type == 'room') {
+            data.roomId = selectedConversation.id;
+        }
+
         if (messageInput) {
+           console.log('sending message', data);
             socket.emit('addMessage', data);
             setMessageInput('');
         }

@@ -8,7 +8,7 @@ import AsideChat from "@/components/AsideChat";
 import OtherMessage from "@/components/OtherMessage";
 import MyMessage from "@/components/MyMessage";
 import MainService from "@/services/main.service";
-import { appendMessagesToMessagesList, appendToMessagesList, setOnlineUsers, setUsersList, unsetSelectedConversation } from "@/redux/actions";
+import { appendMessagesToMessagesList, appendToMessagesList, setOnlineUsers, setRoomsList, setUsersList, unsetSelectedConversation } from "@/redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 import { useSocket } from "@/socket/SockerProvider";
 import DisplayMessages from "@/components/DisplayMessages";
@@ -25,41 +25,58 @@ const ChatPage = () => {
   const socketService = useSocket();
 
   const selectedConversation = useSelector((state) => state.mainReducer.selectedConversation);
-
+  const currentUser = useSelector((state) => state.mainReducer.userData);
 
   useEffect(() => {
     const handleNewMessage = (message) => {
-      console.log('new message', message);
+      console.log("new message", message);
 
       if (selectedConversation) {
-        if (message.senderId === selectedConversation.id || message.receiverId === selectedConversation.id) {
-          dispatch(appendToMessagesList(message));
-        } else {
-          notifyWithCustomIcon(`${message.sender.username} sent you a message`);
-        }
-      } 
+        handleMessageWithSelectedConversation(message);
+      } else {
+        handleNotificationForNewMessage(message);
+      }
+    };
+
+    const handleMessageWithSelectedConversation = (message) => {
+      if (message.type === "room" && message.roomId === selectedConversation.id && selectedConversation.type === "room") {
+        dispatch(appendToMessagesList(message));
+      } else if (message.type === "private" && (message.senderId === selectedConversation.id || message.receiverId === selectedConversation.id) && selectedConversation.type === "private") {
+        dispatch(appendToMessagesList(message));
+      } else {
+        handleNotificationForNewMessage(message);
+      }
+    };
+
+    const handleNotificationForNewMessage = (message) => {
+      if (message.type === "room") {
+        notifyWithCustomIcon(`You have a new message in ${message.room.name}`);
+      } else {
+        notifyWithCustomIcon(`${message.sender.username} sent you a message`);
+      }
     };
 
     const handleUserConnected = (data) => {
-      console.log('user connected', data);
-      fetchOnlineUsers();
+      console.log("user connected", data);
+      dispatch(fetchOnlineUsers());
     };
 
     const handleUserDisconnected = (data) => {
-      console.log('user disconnected', data);
-      fetchOnlineUsers();
+      console.log("user disconnected", data);
+      dispatch(fetchOnlineUsers());
     };
 
-    socketService.on('new-message', handleNewMessage);
-    socketService.on('userConnected', handleUserConnected);
-    socketService.on('userDisconnected', handleUserDisconnected);
+    socketService.on("new-message", handleNewMessage);
+    socketService.on("userConnected", handleUserConnected);
+    socketService.on("userDisconnected", handleUserDisconnected);
 
     return () => {
-      socketService.off('new-message', handleNewMessage);
-      socketService.off('userConnected', handleUserConnected);
-      socketService.off('userDisconnected', handleUserDisconnected);
+      socketService.off("new-message", handleNewMessage);
+      socketService.off("userConnected", handleUserConnected);
+      socketService.off("userDisconnected", handleUserDisconnected);
     };
-  }, [dispatch, selectedConversation, socketService]);
+  }, [dispatch, selectedConversation, currentUser]);
+
 
 
   const fetchOnlineUsers = async () => {
@@ -70,6 +87,16 @@ const ChatPage = () => {
     });
   }
 
+  const fetchUserRooms = async () => {
+    await MainService.getUserRooms().then((response) => {
+      dispatch(setRoomsList(response));
+      console.log(response);
+    }).catch((error) => {
+      console.log(error);
+    });
+  }
+
+
  
 
 
@@ -77,6 +104,7 @@ const ChatPage = () => {
 
   useEffect(() => {
     fetchOnlineUsers();
+    fetchUserRooms();
 
     return () => {
       dispatch(unsetSelectedConversation());
