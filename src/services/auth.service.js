@@ -1,10 +1,11 @@
 import api from "./api";
+import loginAPI from "./loginAPI";
 
 const AuthService = {
 
     // Login user
     login: async (data) => {
-        return await api.post("/auth/login", data);
+        return await loginAPI.post("/auth/login", data);
     },
 
     // Register user

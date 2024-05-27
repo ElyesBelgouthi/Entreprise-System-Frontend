@@ -5,3 +5,9 @@ export const setUserToken = (token) => {
     };
 }
 
+export const setUsersList = (usersList) => {
+    return {
+        type: "SET_USERS_LIST",
+        payload: usersList,
+    };
+}
