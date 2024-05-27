@@ -8,7 +8,7 @@ import AsideChat from "@/components/AsideChat";
 import OtherMessage from "@/components/OtherMessage";
 import MyMessage from "@/components/MyMessage";
 import MainService from "@/services/main.service";
-import { appendMessagesToMessagesList, appendToMessagesList, setOnlineUsers, setUsersList } from "@/redux/actions";
+import { appendMessagesToMessagesList, appendToMessagesList, setOnlineUsers, setUsersList, unsetSelectedConversation } from "@/redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 import { useSocket } from "@/socket/SockerProvider";
 import DisplayMessages from "@/components/DisplayMessages";
@@ -70,6 +70,8 @@ const ChatPage = () => {
     });
   }
 
+ 
+
 
 
   const fetchData = async () => {
@@ -87,19 +89,32 @@ const ChatPage = () => {
   useEffect(() => {
     fetchData();
     fetchOnlineUsers();
+
+    return () => {
+      dispatch(unsetSelectedConversation());
+    }
   }, []);
   return (
     <div className="flex h-full">
       <AsideChat />
       <main className="flex flex-1 flex-col">
 
-        {
+        { 
+          !selectedConversation ?
+          <div className="flex h-full items-center justify-center">
+            <p className="text-2xl">Select a conversation to start chatting</p>
+          </div>
+          :
+          <>
+          {
           selectedConversation && (
             <ChatHeader user={selectedConversation} />
           ) 
         }
         <DisplayMessages />
         <MessageInput />
+          </>
+        }
       </main>
       <ToastContainer />
 
