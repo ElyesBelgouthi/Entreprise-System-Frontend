@@ -61,6 +61,8 @@ const DUMMY_POSTS = [
 const FeedPage = () => {
   const { error, loading, data } = useQuery(LOAD_POSTS);
 
+
+
   useEffect(() => {
     console.log(error);
     console.log(data);

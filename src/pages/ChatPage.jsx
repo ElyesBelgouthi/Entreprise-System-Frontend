@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { AvatarImage, AvatarFallback, Avatar } from "../app/ui/avatar";
 import { Input } from "../app/ui/input";
 import { Button } from "../app/ui/button";
@@ -7,8 +7,28 @@ import { MessageCircleIcon, PaperclipIcon, SendIcon } from "../app/ui/icons";
 import AsideChat from "@/components/AsideChat";
 import OtherMessage from "@/components/OtherMessage";
 import MyMessage from "@/components/MyMessage";
+import MainService from "@/services/main.service";
+import { setUsersList } from "@/redux/actions";
+import { useDispatch } from "react-redux";
 
 const ChatPage = () => {
+
+  const dispatch = useDispatch();
+  const fetchData = () => {
+    MainService.getUsers().then((response) => {
+      console.log(response.data);
+      dispatch(setUsersList(
+        response.data
+      ));
+    }).catch((error) => {
+      console.log(error);
+    
+    });
+  }
+
+  useEffect(() => {
+    fetchData();
+  }, []);
   return (
     <div className="flex h-full">
       <AsideChat />

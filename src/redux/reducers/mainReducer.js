@@ -8,9 +8,19 @@ const mainReducer = (state = intialState, action) => {
                 userToken: action.payload.userToken,
                 userData: action.payload.userData,
             }
+        
+        case "SET_USERS_LIST":
+            return {
+                ...state,
+                usersList: action.payload,
+            }
+        
+
         default:
             return state;
     }
 }
+
+
 
 export default mainReducer;
