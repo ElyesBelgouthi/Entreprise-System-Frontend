@@ -42,6 +42,24 @@ const mainReducer = (state = intialState, action) => {
                 messagesList: [...state.messagesList, action.payload],
             }
 
+        case "SET_ONLINE_USERS":
+            return {
+                ...state,
+                onlineUsers: action.payload,
+            }
+
+        case "ADD_ONLINE_USER":
+            return {
+                ...state,
+                onlineUsers: [...state.onlineUsers, action.payload],
+            }
+
+        case "REMOVE_ONLINE_USER":
+            return {
+                ...state,
+                onlineUsers: state.onlineUsers.filter((user) => user.id !== action.payload.id),
+            }
+
 
             
         

@@ -22,6 +22,8 @@ const AsideChat = () => {
   const currentUserId = useSelector((state) => state.mainReducer.userData.id);
   const userDetail = useSelector((state) => state.mainReducer.userData);
 
+  const onlineUsers = useSelector((state) => state.mainReducer.onlineUsers);
+
   const fetchConversations = (selectedUser) => {
     dispatch(setSelectedConversation(selectedUser));
 
@@ -105,10 +107,13 @@ const AsideChat = () => {
                     <div className="flex items-center justify-between flex-1">
                       <span>{user.username}</span>
                       <div className="flex items-center gap-2">
-                        <span className="h-2 w-2 rounded-full bg-green-500" />
-                        <span className="text-xs text-gray-500 dark:text-gray-400">
-                          Online
-                        </span>
+                        {
+                          onlineUsers?.includes(user.id.toString()) ? (
+                            <span className="w-2 h-2 rounded-full bg-green-500" />
+                          ) : (
+                            <span className="w-2 h-2 rounded-full bg-red-500" />
+                          )
+                        }
                       </div>
                     </div>
                   </a>

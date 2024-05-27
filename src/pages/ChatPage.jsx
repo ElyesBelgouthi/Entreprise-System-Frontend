@@ -8,7 +8,7 @@ import AsideChat from "@/components/AsideChat";
 import OtherMessage from "@/components/OtherMessage";
 import MyMessage from "@/components/MyMessage";
 import MainService from "@/services/main.service";
-import { appendMessagesToMessagesList, appendToMessagesList, setUsersList } from "@/redux/actions";
+import { appendMessagesToMessagesList, appendToMessagesList, setOnlineUsers, setUsersList } from "@/redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 import { useSocket } from "@/socket/SockerProvider";
 import DisplayMessages from "@/components/DisplayMessages";
@@ -43,15 +43,34 @@ const ChatPage = () => {
 
     });
 
+    socketService.on('userConnected', (data) => {
+      console.log('user connected', data);
+      fetchOnlineUsers();
+    });
+
+    socketService.on('userDisconnected', (data) => {
+      console.log('user disconnected', data);
+      fetchOnlineUsers();
+    });
+    
+
     return () => {
       socketService.off('new-message', handleData);
     };
   }, [dispatch, selectedConversation, socketService]);
 
+  const fetchOnlineUsers = async () => {
+    await MainService.getOnlineUsers().then((response) => {
+      dispatch(setOnlineUsers(response));
+    }).catch((error) => {
+      console.log(error);
+    });
+  }
 
 
-  const fetchData = () => {
-    MainService.getUsers().then((response) => {
+
+  const fetchData = async () => {
+    await MainService.getUsers().then((response) => {
       console.log(response.data);
       dispatch(setUsersList(
         response.data
@@ -64,6 +83,7 @@ const ChatPage = () => {
 
   useEffect(() => {
     fetchData();
+    fetchOnlineUsers();
   }, []);
   return (
     <div className="flex h-full">
