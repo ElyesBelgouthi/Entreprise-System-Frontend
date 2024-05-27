@@ -19,12 +19,12 @@ function DisplayMessages() {
   return (
     <div className="custom-scrollbar flex-1 overflow-y-auto p-4">
       <div className="grid gap-4 h-96">
-        {messages.length === 0 ? (
+        {messages?.length === 0 ? (
           <div className="flex justify-center items-center h-full text-gray-500">
             No messages yet
           </div>
         ) : (
-          messages.map((message, index) => {
+          messages?.map((message, index) => {
             if (message.sender && message.sender.id == currentUserId) {
               return (
                 <MyMessage
