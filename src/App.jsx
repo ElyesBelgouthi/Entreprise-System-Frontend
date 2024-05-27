@@ -19,6 +19,7 @@ import Dashboard from "./pages/admin/dashboard";
 import RoomsAdmin from "./pages/admin/rooms-admin";
 import RoomEdit from "./pages/admin/room-edit";
 import MainLayout from "./pages/MainLayout";
+import useSse from "./hooks/useSse";
 
 const router = createBrowserRouter([
   {
@@ -87,6 +88,10 @@ const client = new ApolloClient({
 });
 
 function App() {
+
+  const events = useSse('http://localhost:3000/events/subscribe');
+
+
   return (
     <ApolloProvider client={client}>
       <RouterProvider router={router} />

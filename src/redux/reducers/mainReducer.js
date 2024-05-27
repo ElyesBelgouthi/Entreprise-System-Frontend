@@ -60,6 +60,32 @@ const mainReducer = (state = intialState, action) => {
                 onlineUsers: state.onlineUsers.filter((user) => user.id !== action.payload.id),
             }
 
+        case "ADD_USER":
+            return {
+                ...state,
+                usersList: [...state.usersList, action.payload],
+            }
+
+        case "UPDATE_USER":
+            return {
+                ...state,
+                usersList: state.usersList.map((user) => {
+                    if (user.id == action.payload.id) {
+                        return action.payload;
+                    }
+                    return user;
+                }),
+            }
+
+        
+        case "DELETE_USER":
+            return {
+                ...state,
+                usersList: state.usersList.filter((user) => user.id !== action.payload.id),
+            }
+
+
+
 
             
         

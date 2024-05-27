@@ -14,6 +14,9 @@ import { useSocket } from "@/socket/SockerProvider";
 import DisplayMessages from "@/components/DisplayMessages";
 import MessageInput from "@/components/MessageInput";
 import ChatHeader from "@/components/ChatHeader";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { notifyWithCustomIcon } from "@/components/toast/notifyWithCustomIcon";
 
 const ChatPage = () => {
 
@@ -25,39 +28,39 @@ const ChatPage = () => {
 
 
   useEffect(() => {
-    const handleData = (data) => {
-      console.log('new message', data);
-    };
-
-    socketService.on('new-message', message => {
+    const handleNewMessage = (message) => {
       console.log('new message', message);
 
       if (selectedConversation) {
-
-        if (message.senderId == selectedConversation.id || message.receiverId == selectedConversation.id) {
+        if (message.senderId === selectedConversation.id || message.receiverId === selectedConversation.id) {
           dispatch(appendToMessagesList(message));
+        } else {
+          notifyWithCustomIcon(`${message.sender.username} sent you a message`);
         }
+      } 
+    };
 
-      }
-
-
-    });
-
-    socketService.on('userConnected', (data) => {
+    const handleUserConnected = (data) => {
       console.log('user connected', data);
       fetchOnlineUsers();
-    });
+    };
 
-    socketService.on('userDisconnected', (data) => {
+    const handleUserDisconnected = (data) => {
       console.log('user disconnected', data);
       fetchOnlineUsers();
-    });
-    
+    };
+
+    socketService.on('new-message', handleNewMessage);
+    socketService.on('userConnected', handleUserConnected);
+    socketService.on('userDisconnected', handleUserDisconnected);
 
     return () => {
-      socketService.off('new-message', handleData);
+      socketService.off('new-message', handleNewMessage);
+      socketService.off('userConnected', handleUserConnected);
+      socketService.off('userDisconnected', handleUserDisconnected);
     };
   }, [dispatch, selectedConversation, socketService]);
+
 
   const fetchOnlineUsers = async () => {
     await MainService.getOnlineUsers().then((response) => {
@@ -98,6 +101,8 @@ const ChatPage = () => {
         <DisplayMessages />
         <MessageInput />
       </main>
+      <ToastContainer />
+
     </div>
   );
 };
