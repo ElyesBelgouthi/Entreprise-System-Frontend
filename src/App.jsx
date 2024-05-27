@@ -20,6 +20,7 @@ import RoomsAdmin from "./pages/admin/rooms-admin";
 import RoomEdit from "./pages/admin/room-edit";
 import MainLayout from "./pages/MainLayout";
 import useSse from "./hooks/useSse";
+import client from "./GraphQL/apollo";
 
 const router = createBrowserRouter([
   {
@@ -68,24 +69,24 @@ const router = createBrowserRouter([
   },
 ]);
 
-const errorLink = onError(({ graphqlErrors, networkError }) => {
-  if (graphqlErrors) {
-    graphqlErrors.map(({ message, location, path }) => {
-      alert(`GraphQL error ${message}`);
-    });
-  }
-});
+// const errorLink = onError(({ graphqlErrors, networkError }) => {
+//   if (graphqlErrors) {
+//     graphqlErrors.map(({ message, location, path }) => {
+//       alert(`GraphQL error ${message}`);
+//     });
+//   }
+// });
 
-const link = from([
-  new HttpLink({
-    uri: "http://localhost:3000/graphql",
-  }),
-]);
+// const link = from([
+//   new HttpLink({
+//     uri: "http://localhost:3000/graphql",
+//   }),
+// ]);
 
-const client = new ApolloClient({
-  cache: new InMemoryCache(),
-  link: link,
-});
+// const client = new ApolloClient({
+//   cache: new InMemoryCache(),
+//   link: link,
+// });
 
 function App() {
 

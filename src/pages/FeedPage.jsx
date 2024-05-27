@@ -11,61 +11,27 @@ import CreatePost from "../components/CreatePost";
 import FeedPost from "@/components/FeedPost";
 import { LOAD_POSTS } from "@/GraphQL/Queries";
 import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setPostsList } from "@/redux/actions";
+import FullScreenLoader from "@/components/FullScreenLoader";
 
-const DUMMY_POSTS = [
-  {
-    avatar: "OM",
-    name: "Omar Maalej",
-    time: "4h ago",
-    content:
-      "Just shipped a new version of our design system. Let me know if you have any feedback!",
-    comments: [
-      {
-        avatar: "SD",
-        name: "Shu Ding",
-        content: "Awesome, can't wait to try it out! Keep up the great work.",
-        time: "1h ago",
-      },
-      {
-        avatar: "SD",
-        name: "Shu Ding",
-        content: "Awesome, can't wait to try it out! Keep up the great work.",
-        time: "1h ago",
-      },
-    ],
-  },
 
-  {
-    avatar: "OM",
-    name: "Omar Maalej",
-    time: "4h ago",
-    content:
-      "Just shipped a new version of our design system. Let me know if you have any feedback!",
-    comments: [
-      {
-        avatar: "SD",
-        name: "Shu Ding",
-        content: "Awesome, can't wait to try it out! Keep up the great work.",
-        time: "1h ago",
-      },
-      {
-        avatar: "SD",
-        name: "Shu Ding",
-        content: "Awesome, can't wait to try it out! Keep up the great work.",
-        time: "1h ago",
-      },
-    ],
-  },
-];
 
 const FeedPage = () => {
   const { error, loading, data } = useQuery(LOAD_POSTS);
+  const dispatch = useDispatch();
 
+  const posts = useSelector((state) => state.mainReducer.postsList);
 
+  
 
   useEffect(() => {
     console.log(error);
     console.log(data);
+
+    if (data) dispatch(setPostsList(data.posts));
+    
+
   }, [data]);
 
   return (
@@ -76,9 +42,12 @@ const FeedPage = () => {
             <div className="space-y-8">
               <CreatePost />
               <div className="space-y-4">
-                {DUMMY_POSTS.map((post, index) => {
+              {loading && <FullScreenLoader />}
+                {error && <p>Error loading posts</p>}
+                {posts && posts.map((post, index) => {
                   return <FeedPost post={post} key={index} />;
                 })}
+
               </div>
             </div>
             <div className="space-y-8">
