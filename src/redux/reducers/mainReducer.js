@@ -14,6 +14,30 @@ const mainReducer = (state = intialState, action) => {
                 ...state,
                 usersList: action.payload,
             }
+
+        case "SET_SELECTED_CONVERSATION":
+            return {
+                ...state,
+                selectedConversation: action.payload,
+            }
+
+        case "UNSET_SELECTED_CONVERSATION":
+            return {
+                ...state,
+                selectedConversation: null,
+            }
+
+        case "APPEND_MESSAGES_TO_MESSAGES_LIST":
+            //append messages to the selected conversation
+            return {
+                ...state,
+                // messagesList: [...state.messagesList, ...action.payload],
+                messagesList: action.payload.length > 0 ? action.payload : [...state.messagesList, action.payload],
+
+            }
+
+
+            
         
 
         default:

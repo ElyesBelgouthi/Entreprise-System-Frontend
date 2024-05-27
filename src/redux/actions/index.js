@@ -11,3 +11,30 @@ export const setUsersList = (usersList) => {
         payload: usersList,
     };
 }
+
+export const setSelectedConversation = (conversation) => {
+    return {
+        type: "SET_SELECTED_CONVERSATION",
+        payload: conversation,
+    };
+}
+
+export const unsetSelectedConversation = () => {
+    return {
+        type: "UNSET_SELECTED_CONVERSATION",
+    };
+}
+
+export const appendToMessagesList = (message) => {
+    return {
+        type: "APPEND_TO_MESSAGES_LIST",
+        payload: message,
+    };
+}
+
+export const appendMessagesToMessagesList = (messages) => {
+    return {
+        type: "APPEND_MESSAGES_TO_MESSAGES_LIST",
+        payload: messages,
+    };
+}

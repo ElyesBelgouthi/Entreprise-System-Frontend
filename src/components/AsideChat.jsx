@@ -7,7 +7,9 @@ import {
 } from "../app/ui/collapsible";
 
 import { ChevronRightIcon, HashIcon, SettingsIcon } from "../app/ui/icons";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { appendMessagesToMessagesList, setSelectedConversation } from "@/redux/actions";
+import MainService from "@/services/main.service";
 
 const genAvatar = (username) => {
   return username.charAt(0) + username.charAt(1);
@@ -15,7 +17,23 @@ const genAvatar = (username) => {
 
 const AsideChat = () => {
 
+  const dispatch = useDispatch();
   const usersList = useSelector((state) => state.mainReducer.usersList);
+  const currentUserId = useSelector((state) => state.mainReducer.userData.id);
+
+  const fetchConversations = (selectedUser) => {
+    dispatch(setSelectedConversation(selectedUser));
+
+    MainService.getMessages(currentUserId, selectedUser.id, false)
+      .then((response) => {
+        console.log("useful resp", response);
+        dispatch(appendMessagesToMessagesList(response));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   
 
   const rooms = ["General", "Engineering", "Design", "Sales"];
@@ -57,32 +75,38 @@ const AsideChat = () => {
           >
 
             {usersList.map((user, i) => {
-              return (
-                <a
-                  key={i}
-                  className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-gray-200 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-50"
-                  href="#"
-                >
-                  <Avatar className="h-6 w-6">
-                    <AvatarImage
-                      alt={user.username}
-                      src={user.avatar}
-                    />
-                    <AvatarFallback>
-                      {genAvatar(user.username)}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div className="flex items-center justify-between flex-1">
-                    <span>{user.username}</span>
-                    <div className="flex items-center gap-2">
-                      <span className="h-2 w-2 rounded-full bg-green-500" />
-                      <span className="text-xs text-gray-500 dark:text-gray-400">
-                        Online
-                      </span>
+              //compare the current user id with the user id
+              if (currentUserId !== user.id) {
+                return (
+                  <a
+                    key={i}
+                    className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-gray-200 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-50"
+                    // href="#"
+                    onClick={() => { fetchConversations(user)
+                    }}
+                  >
+                    <Avatar className="h-6 w-6">
+                      <AvatarImage
+                        alt={user.username}
+                        src={user.avatar}
+                      />
+                      <AvatarFallback>
+                        {genAvatar(user.username)}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="flex items-center justify-between flex-1">
+                      <span>{user.username}</span>
+                      <div className="flex items-center gap-2">
+                        <span className="h-2 w-2 rounded-full bg-green-500" />
+                        <span className="text-xs text-gray-500 dark:text-gray-400">
+                          Online
+                        </span>
+                      </div>
                     </div>
-                  </div>
-                </a>
-              );
+                  </a>
+                );
+
+              }
             }
          
 

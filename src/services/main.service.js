@@ -21,6 +21,27 @@ const MainService = {
         deleteUser: async (id) => {
             return await api.delete(`/users/${id}`);
         },
+
+        //get messages with user
+        getMessages: async (senderId, receiverId, isRoom) => {
+            try {
+              const response = await api.get('/messages', {
+                params: {
+                  senderId,
+                  receiverId,
+                  isRoom
+                }
+              });
+
+              
+
+              return response.data;
+            } catch (error) {
+              console.error('Error fetching messages:', error);
+              throw error;
+            }
+          },
+        
     
 };
 
