@@ -30,20 +30,17 @@ import { format } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Calendar } from "../app/ui/calendar";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "../app/ui/popover";
-import { Checkbox } from "../app/ui/checkbox"
+import { Popover, PopoverContent, PopoverTrigger } from "../app/ui/popover";
+import { Checkbox } from "../app/ui/checkbox";
 import DialogEmployeeForm from "./DialogEmployeeForm";
+import api from "@/services/api";
 
 const rolesOptions = [
-    { value: 'Admin', label: 'Admin' },
-    { value: 'User', label: 'User' },
-    { value: 'Manager', label: 'Manager' },
-    // Add other roles as needed
-  ];
+  { value: "Admin", label: "Admin" },
+  { value: "User", label: "User" },
+  { value: "Manager", label: "Manager" },
+  // Add other roles as needed
+];
 
 const Departments = [
   "Human Resources (HR)",
@@ -71,20 +68,24 @@ const Departments = [
 const AddEmployeeForm = () => {
   const form = useForm({
     defaultValues: {
-      name: "",
+      username: "",
       email: "",
       password: "",
       department: "",
       hireDate: null,
-      roles: [],
+      role: "",
       phoneNumber: "",
     },
   });
 
-  const [date, setDate] = useState(null);
-
-  function onSubmit(values) {
+  async function onSubmit(values) {
     console.log(values);
+    try {
+      const response = await api.post("users", values);
+      console.log("Employee created:", response.data);
+    } catch (error) {
+      console.error("Error creating employee:", error);
+    }
   }
 
   return (
@@ -97,11 +98,10 @@ const AddEmployeeForm = () => {
       <DialogContent>
         <DialogHeader>
           <DialogTitle>New Employee</DialogTitle>
-
         </DialogHeader>
         <ScrollArea className="h-[600px] rounded-md border p-2">
-              <DialogEmployeeForm form={form} onSubmitFn={onSubmit} />
-            </ScrollArea>
+          <DialogEmployeeForm form={form} onSubmitFn={onSubmit} />
+        </ScrollArea>
       </DialogContent>
     </Dialog>
   );
