@@ -81,3 +81,39 @@ export const deleteUser = (user) => {
     };
 }
 
+export const setPostsList = (postsList) => {
+    return {
+        type: "SET_POSTS_LIST",
+        payload: postsList,
+    };
+}
+
+export const addPost = (post) => {
+    return {
+        type: "ADD_POST",
+        payload: post,
+    };
+}
+
+export const updatePost = (post) => {
+    return {
+        type: "UPDATE_POST",
+        payload: post,
+    };
+}
+
+export const deletePost = (post) => {
+    return {
+        type: "DELETE_POST",
+        payload: post,
+    };
+}
+
+export const addCommentToPost = (comment) => {
+    return {
+        type: "ADD_COMMENT_TO_POST",
+        payload: comment,
+    };
+}
+
+

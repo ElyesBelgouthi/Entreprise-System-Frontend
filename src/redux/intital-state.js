@@ -5,6 +5,7 @@ const intialState = {
     selectedConversation: null,
     messagesList: [],
     onlineUsers: [],
+    postsLists: [],
 }
 
 export default intialState;

@@ -84,6 +84,50 @@ const mainReducer = (state = intialState, action) => {
                 usersList: state.usersList.filter((user) => user.id !== action.payload.id),
             }
 
+        case "SET_POSTS_LIST":
+            return {
+                ...state,
+                postsList: action.payload,
+            }
+
+        case "ADD_POST":
+            return {
+                ...state,
+                postsList: [action.payload, ...state.postsList],
+            }
+        
+        case "UPDATE_POST":
+            return {
+                ...state,
+                postsList: state.postsList.map((post) => {
+                    if (post.id == action.payload.id) {
+                        return action.payload;
+                    }
+                    return post;
+                }),
+            }
+
+        case "DELETE_POST":
+            return {
+                ...state,
+                postsList: state.postsList.filter((post) => post.id !== action.payload.id),
+            }
+
+        case "ADD_COMMENT_TO_POST":
+            return {
+                ...state,
+                postsList: state.postsList.map((post) => {
+                    if (post.id == action.payload.post.id) {
+                        return {
+                            ...post,
+                            comments: [action.payload, ...post.comments],
+                        };
+                    }
+                    return post;
+                }),
+            }
+
+
 
 
 
