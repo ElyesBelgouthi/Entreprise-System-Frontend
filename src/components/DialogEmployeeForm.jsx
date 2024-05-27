@@ -61,7 +61,6 @@ const DialogEmployeeForm = ({ form, onSubmitFn }) => {
 
   function onSubmit(values) {
     onSubmitFn(values);
-    console.log(values);
   }
 
   return (

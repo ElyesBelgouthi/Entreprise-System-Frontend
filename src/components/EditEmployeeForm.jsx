@@ -10,8 +10,9 @@ import {
 } from "../app/ui/dialog";
 import { ScrollArea } from "../app/ui/scroll-area";
 import DialogEmployeeForm from "./DialogEmployeeForm";
+import api from "@/services/api";
 
-const EditEmployeeForm = ({ employee }) => {
+const EditEmployeeForm = ({ sendRefetch, employee }) => {
   const form = useForm({
     defaultValues: {
       username: employee.username,
@@ -23,15 +24,27 @@ const EditEmployeeForm = ({ employee }) => {
       phoneNumber: employee.phoneNumber,
     },
   });
-  console.log(form);
-  function onSubmit(values) {
-    console.log(values);
-  }
+
+  const onSubmit = async (values) => {
+    try {
+      let sentValues = { ...values };
+      if (values.password === "") {
+        delete sentValues.password;
+      }
+      const response = await api.patch(`users/${employee.id}`, sentValues);
+      console.log("Employee created:", response.data);
+      sendRefetch((state) => !state);
+    } catch (error) {
+      console.error("Error creating employee:", error);
+    }
+  };
 
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <EditIcon />
+        <Button size="sm" variant="outline">
+          <EditIcon className="h-4 w-4" />
+        </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

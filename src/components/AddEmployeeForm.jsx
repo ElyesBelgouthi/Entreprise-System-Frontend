@@ -65,7 +65,7 @@ const Departments = [
   "Training and Development",
 ];
 
-const AddEmployeeForm = () => {
+const AddEmployeeForm = ({ sendRefetch }) => {
   const form = useForm({
     defaultValues: {
       username: "",
@@ -83,6 +83,7 @@ const AddEmployeeForm = () => {
     try {
       const response = await api.post("users", values);
       console.log("Employee created:", response.data);
+      sendRefetch((state) => !state);
     } catch (error) {
       console.error("Error creating employee:", error);
     }
