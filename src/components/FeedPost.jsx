@@ -56,7 +56,7 @@ const FeedPost = ({ post }) => {
                 ))}
             </div>
 
-            <form className="mt-8 flex items-center gap-2">
+            <form className="mt-6 flex items-center gap-2">
               <Input
                 className="flex-1 bg-gray-200 text-gray-700 placeholder:text-gray-500 focus:outline-none focus:ring-1 focus:ring-blue-400 rounded-md dark:bg-gray-800 dark:text-gray-50 dark:placeholder:text-gray-400"
                 placeholder="Type your comment..."

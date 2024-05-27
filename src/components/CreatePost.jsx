@@ -1,20 +1,44 @@
-import { Button } from "../app//ui/button";
-
+import React, { useState } from "react";
+import { useMutation } from "@apollo/client";
+import { CREATE_POST } from "../GraphQL/Mutations";
+import { Button } from "../app/ui/button";
 import { Label } from "../app/ui/label";
 import { Textarea } from "../app/ui/textarea";
 import { CardContent, Card } from "../app/ui/card";
 
 const CreatePost = () => {
+  const [content, setContent] = useState("");
+  const [createPost, { data, loading, error }] = useMutation(CREATE_POST);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await createPost({
+        variables: {
+          createPostInput: {
+            authorId: 1,
+            content: content,
+          },
+        },
+      });
+      setContent("");
+    } catch (err) {
+      console.error("Error creating post:", err);
+    }
+  };
+
   return (
     <Card>
       <CardContent>
-        <form className="grid gap-4 pt-6">
+        <form className="grid gap-4 pt-6" onSubmit={handleSubmit}>
           <div className="grid gap-2">
             <Label htmlFor="post-content">What's on your mind?</Label>
             <Textarea
               id="post-content"
               placeholder="Share your thoughts..."
               rows={3}
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
             />
           </div>
           <div className="grid grid-cols-[1fr_auto] items-center gap-4">
@@ -29,11 +53,23 @@ const CreatePost = () => {
               </Button>
             </div>
             <div className="flex gap-2">
-              <Button variant="outline">Cancel</Button>
-              <Button>Post</Button>
+              <Button
+                variant="outline"
+                type="button"
+                onClick={() => setContent("")}
+              >
+                Cancel
+              </Button>
+              <Button type="submit" disabled={loading}>
+                {loading ? "Posting..." : "Post"}
+              </Button>
             </div>
           </div>
         </form>
+        {error && (
+          <p className="text-red-500">Error creating post: {error.message}</p>
+        )}
+        {data && <p className="text-green-500">Post created successfully!</p>}
       </CardContent>
     </Card>
   );
