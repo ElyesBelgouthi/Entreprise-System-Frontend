@@ -7,7 +7,7 @@ const RoomRow = ({ room }) => {
     <TableRow>
       <TableCell className="font-medium">{room.name}</TableCell>
       <TableCell className="hidden md:table-cell">
-        {room.users.length}
+        {room && room.users && room.users.length}
       </TableCell>
       <TableCell className="hidden md:table-cell">
         Check out the new campaign launch.

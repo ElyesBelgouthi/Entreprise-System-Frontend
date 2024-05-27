@@ -12,7 +12,7 @@ import {
 } from "../../app/ui/dialog";
 import { Label } from "../../app/ui/label";
 import { ScrollArea } from "../../app/ui/scroll-area";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import api from "@/services/api";
 
 const DUMMY_PERSONS = [
@@ -37,6 +37,8 @@ const RoomEdit = () => {
   const [employees, setEmployees] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredPersons, setFilteredPersons] = useState([]);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchRoom = async () => {
@@ -124,6 +126,15 @@ const RoomEdit = () => {
     }
   };
 
+  const handleDeleteRoom = async () => {
+    try {
+      await api.delete(`/rooms/${id}`);
+      navigate("/admin/rooms");
+    } catch (error) {
+      console.error("Error deleting room:", error);
+    }
+  };
+
   return (
     <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
       <div className="flex items-center">
@@ -190,9 +201,37 @@ const RoomEdit = () => {
               </DialogFooter>
             </DialogContent>
           </Dialog>
-          <Button size="sm" variant="destructive">
-            Delete Room
-          </Button>
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button size="sm" variant="destructive">
+                Delete Room
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[425px] bg-white rounded-lg shadow-lg p-6">
+              <DialogHeader className="text-center">
+                <h2 className="text-lg font-semibold text-gray-800">
+                  Are you sure you want to delete this room?
+                </h2>
+              </DialogHeader>
+              <DialogFooter className="flex justify-end gap-4 mt-4">
+                <Button
+                  variant="destructive"
+                  className="bg-red-500 text-white hover:bg-red-600"
+                  onClick={handleDeleteRoom}
+                >
+                  Yes, Delete
+                </Button>
+                <DialogTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className="border-gray-300 text-gray-700 hover:bg-gray-50"
+                  >
+                    Cancel
+                  </Button>
+                </DialogTrigger>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
         </div>
       </div>
       <div className="border shadow-sm rounded-lg">
