@@ -41,6 +41,16 @@ const MainService = {
               throw error;
             }
           },
+
+        getOnlineUsers: async () => {
+            try {
+              const response = await api.post('/users/online-users');
+              return response.data;
+            } catch (error) {
+              console.error('Error fetching online users:', error);
+              throw error;
+            }
+          }
         
     
 };

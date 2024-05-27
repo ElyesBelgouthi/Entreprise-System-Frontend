@@ -31,9 +31,33 @@ const mainReducer = (state = intialState, action) => {
             //append messages to the selected conversation
             return {
                 ...state,
-                // messagesList: [...state.messagesList, ...action.payload],
-                messagesList: action.payload.length > 0 ? action.payload : [...state.messagesList, action.payload],
+                messagesList: action.payload,
 
+            }
+
+        case "APPEND_TO_MESSAGES_LIST":
+            //append a single message to the selected conversation
+            return {
+                ...state,
+                messagesList: [...state.messagesList, action.payload],
+            }
+
+        case "SET_ONLINE_USERS":
+            return {
+                ...state,
+                onlineUsers: action.payload,
+            }
+
+        case "ADD_ONLINE_USER":
+            return {
+                ...state,
+                onlineUsers: [...state.onlineUsers, action.payload],
+            }
+
+        case "REMOVE_ONLINE_USER":
+            return {
+                ...state,
+                onlineUsers: state.onlineUsers.filter((user) => user.id !== action.payload.id),
             }
 
 

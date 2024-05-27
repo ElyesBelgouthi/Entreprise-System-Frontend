@@ -38,3 +38,25 @@ export const appendMessagesToMessagesList = (messages) => {
         payload: messages,
     };
 }
+
+export const setOnlineUsers = (users) => {
+    return {
+        type: "SET_ONLINE_USERS",
+        payload: users,
+    };
+}
+
+export const addOnlineUser = (user) => {
+    return {
+        type: "ADD_ONLINE_USER",
+        payload: user,
+    };
+}
+
+export const removeOnlineUser = (user) => {
+    return {
+        type: "REMOVE_ONLINE_USER",
+        payload: user,
+    };
+}
+
