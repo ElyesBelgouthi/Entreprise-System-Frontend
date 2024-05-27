@@ -33,7 +33,7 @@ const LoginPage = () => {
       console.log(response.data);
       dispatch(setUserToken({
         userToken: response.data.access_token,
-        userData: response.data.user
+        userData: response.data.userData
       }));
       navigate("/");
     }).catch((error) => {
