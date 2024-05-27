@@ -8,11 +8,12 @@ import AsideChat from "@/components/AsideChat";
 import OtherMessage from "@/components/OtherMessage";
 import MyMessage from "@/components/MyMessage";
 import MainService from "@/services/main.service";
-import { appendMessagesToMessagesList, setUsersList } from "@/redux/actions";
+import { appendMessagesToMessagesList, appendToMessagesList, setUsersList } from "@/redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 import { useSocket } from "@/socket/SockerProvider";
 import DisplayMessages from "@/components/DisplayMessages";
 import MessageInput from "@/components/MessageInput";
+import ChatHeader from "@/components/ChatHeader";
 
 const ChatPage = () => {
 
@@ -34,7 +35,7 @@ const ChatPage = () => {
       if (selectedConversation) {
 
         if (message.senderId == selectedConversation.id || message.receiverId == selectedConversation.id) {
-          dispatch(appendMessagesToMessagesList(message));
+          dispatch(appendToMessagesList(message));
         }
 
       }
@@ -68,8 +69,14 @@ const ChatPage = () => {
     <div className="flex h-full">
       <AsideChat />
       <main className="flex flex-1 flex-col">
+
+        {
+          selectedConversation && (
+            <ChatHeader user={selectedConversation} />
+          ) 
+        }
         <DisplayMessages />
-       <MessageInput />
+        <MessageInput />
       </main>
     </div>
   );

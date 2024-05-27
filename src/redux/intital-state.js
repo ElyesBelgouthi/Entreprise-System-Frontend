@@ -4,6 +4,7 @@ const intialState = {
     usersList: [],
     selectedConversation: null,
     messagesList: [],
+    onlineUsers: [],
 }
 
 export default intialState;

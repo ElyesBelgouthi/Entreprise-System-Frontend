@@ -31,9 +31,15 @@ const mainReducer = (state = intialState, action) => {
             //append messages to the selected conversation
             return {
                 ...state,
-                // messagesList: [...state.messagesList, ...action.payload],
-                messagesList: action.payload.length > 0 ? action.payload : [...state.messagesList, action.payload],
+                messagesList: action.payload,
 
+            }
+
+        case "APPEND_TO_MESSAGES_LIST":
+            //append a single message to the selected conversation
+            return {
+                ...state,
+                messagesList: [...state.messagesList, action.payload],
             }
 
 
