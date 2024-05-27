@@ -50,6 +50,32 @@ const MainService = {
               console.error('Error fetching online users:', error);
               throw error;
             }
+          },
+
+        getUserRooms: async () => {
+            try {
+              const response = await api.get('/rooms/user-rooms');
+              return response.data;
+            } catch (error) {
+              console.error('Error fetching rooms:', error);
+              throw error;
+            }
+          },
+
+        getRoomMessages: async (roomId, senderId) => {
+            try {
+              const response = await api.get(`/messages`, {
+                params: {
+                  isRoom: true,
+                  senderId,
+                  receiverId: roomId
+                }
+              });
+              return response.data;
+            } catch (error) {
+              console.error('Error fetching room messages:', error);
+              throw error;
+            }
           }
         
     

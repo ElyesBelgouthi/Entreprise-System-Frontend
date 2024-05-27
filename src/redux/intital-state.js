@@ -7,7 +7,8 @@ const intialState = {
     onlineUsers: [],
     postsLists: [],
     notifications: [],
-    notificationIsRead: false
+    notificationIsRead: false,
+    roomsList: [],
 }
 
 export default intialState;

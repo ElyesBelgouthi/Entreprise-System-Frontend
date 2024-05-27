@@ -10,6 +10,7 @@ import { ChevronRightIcon, HashIcon, SettingsIcon } from "../app/ui/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { appendMessagesToMessagesList, setSelectedConversation } from "@/redux/actions";
 import MainService from "@/services/main.service";
+import DisplayRoomsList from "./DisplayRoomsList";
 
 const genAvatar = (username) => {
   return username.charAt(0) + username.charAt(1);
@@ -25,7 +26,10 @@ const AsideChat = () => {
   const onlineUsers = useSelector((state) => state.mainReducer.onlineUsers);
 
   const fetchConversations = (selectedUser) => {
-    dispatch(setSelectedConversation(selectedUser));
+    dispatch(setSelectedConversation({
+      ...selectedUser,
+      type: "private",
+    }));
 
     MainService.getMessages(currentUserId, selectedUser.id, false)
       .then((response) => {
@@ -39,7 +43,6 @@ const AsideChat = () => {
 
   
 
-  const rooms = ["General", "Engineering", "Design", "Sales"];
 
   return (
     <aside className="hidden w-72 shrink-0 border-r bg-gray-100 p-4 dark:border-gray-700 dark:bg-gray-900 lg:block relative">
@@ -49,20 +52,7 @@ const AsideChat = () => {
           <ChevronRightIcon className="h-5 w-5 transition-all text-gray-700 dark:text-gray-50" />
         </CollapsibleTrigger>
         <CollapsibleContent>
-          <nav className="space-y-2">
-            {rooms.map((room, i) => {
-              return (
-                <a
-                  key={i}
-                  className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-gray-200 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-50"
-                  href="#"
-                >
-                  <HashIcon className="h-4 w-4 text-gray-700 dark:text-gray-50" />
-                  {room}
-                </a>
-              );
-            })}
-          </nav>
+          <DisplayRoomsList />
         </CollapsibleContent>
       </Collapsible>
       <Collapsible className="space-y-4">
