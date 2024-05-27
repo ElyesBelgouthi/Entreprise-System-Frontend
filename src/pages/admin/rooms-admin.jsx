@@ -1,60 +1,100 @@
-import { Button } from "../../app/ui/button"
-import { Input } from "../../app/ui/input"
-import { TableHead, TableRow, TableHeader, TableCell, TableBody, Table } from "../../app/ui/table"
-import { DialogTrigger, DialogTitle, DialogDescription, DialogHeader, DialogFooter, DialogContent, Dialog } from "../../app/ui/dialog"
-import { Label } from "../../app/ui/label"
-import { SelectValue, SelectTrigger, SelectItem, SelectContent, Select } from "../../app/ui/select"
-import RoomRow from "@/components/RoomRow"
-import AddRoomForm from "@/components/AddRoomForm"
+import { Button } from "../../app/ui/button";
+import { Input } from "../../app/ui/input";
+import {
+  TableHead,
+  TableRow,
+  TableHeader,
+  TableCell,
+  TableBody,
+  Table,
+} from "../../app/ui/table";
+import {
+  DialogTrigger,
+  DialogTitle,
+  DialogDescription,
+  DialogHeader,
+  DialogFooter,
+  DialogContent,
+  Dialog,
+} from "../../app/ui/dialog";
+import { Label } from "../../app/ui/label";
+import {
+  SelectValue,
+  SelectTrigger,
+  SelectItem,
+  SelectContent,
+  Select,
+} from "../../app/ui/select";
+import RoomRow from "@/components/RoomRow";
+import AddRoomForm from "@/components/AddRoomForm";
+import { useEffect, useState } from "react";
+import api from "@/services/api";
 
 const DUMMY_ROOMS = [
-    {id:1, name: "Room A", members: 10 },
-    {id:1, name: "Room B", members: 5 },
-    {id:1, name: "Room C", members: 8 },
-    {id:1, name: "Room D", members: 12 },
-    {id:1, name: "Room E", members: 7 },
-    {id:1, name: "Room F", members: 9 },
-    {id:1, name: "Room G", members: 4 },
-    {id:1, name: "Room H", members: 11 },
-    {id:1, name: "Room I", members: 6 },
-    {id:1, name: "Room J", members: 13 }
-  ];
+  { id: 1, name: "Room A", members: 10 },
+  { id: 1, name: "Room B", members: 5 },
+  { id: 1, name: "Room C", members: 8 },
+  { id: 1, name: "Room D", members: 12 },
+  { id: 1, name: "Room E", members: 7 },
+  { id: 1, name: "Room F", members: 9 },
+  { id: 1, name: "Room G", members: 4 },
+  { id: 1, name: "Room H", members: 11 },
+  { id: 1, name: "Room I", members: 6 },
+  { id: 1, name: "Room J", members: 13 },
+];
 
 const RoomsAdmin = () => {
-    return (
-        <>
-              <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
-                <div className="flex items-center">
-                  <h1 className="font-semibold text-lg md:text-2xl">Chat Rooms</h1>
-                  <AddRoomForm />
-                </div>
-                <div className="border shadow-sm rounded-lg">
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>Name</TableHead>
-                        <TableHead className="hidden md:table-cell">Members</TableHead>
-                        <TableHead className="hidden md:table-cell">Last Message</TableHead>
-                        <TableHead>Actions</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {
-                        DUMMY_ROOMS.map((room,index)=>{
-                            return <RoomRow room={room} key ={index}/>
-                        })
-                      }
-                    </TableBody>
-                  </Table>
-                </div>
-              </main>
-        </>
-      )
-    }
+  const [rooms, setRooms] = useState([]);
 
-export default RoomsAdmin
+  useEffect(() => {
+    const fetchRooms = async () => {
+      try {
+        const response = await api.get("/rooms");
+        if (response.data) {
+          setRooms(response.data);
+        } else {
+          setRooms(DUMMY_ROOMS);
+        }
+      } catch (error) {
+        console.error("Error fetching rooms:", error);
+        setRooms(DUMMY_ROOMS);
+      }
+    };
+    fetchRooms();
+  }, []);
+  return (
+    <>
+      <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
+        <div className="flex items-center">
+          <h1 className="font-semibold text-lg md:text-2xl">Chat Rooms</h1>
+          <AddRoomForm />
+        </div>
+        <div className="border shadow-sm rounded-lg">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Name</TableHead>
+                <TableHead className="hidden md:table-cell">Members</TableHead>
+                <TableHead className="hidden md:table-cell">
+                  Last Message
+                </TableHead>
+                <TableHead>Actions</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {Array.isArray(rooms) &&
+                rooms.map((room, index) => {
+                  return <RoomRow room={room} key={index} />;
+                })}
+            </TableBody>
+          </Table>
+        </div>
+      </main>
+    </>
+  );
+};
 
-  
+export default RoomsAdmin;
 
 function BellIcon(props) {
   return (
@@ -73,9 +113,8 @@ function BellIcon(props) {
       <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
       <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
     </svg>
-  )
+  );
 }
-
 
 function ContactIcon(props) {
   return (
@@ -97,10 +136,8 @@ function ContactIcon(props) {
       <line x1="8" x2="8" y1="2" y2="4" />
       <line x1="16" x2="16" y1="2" y2="4" />
     </svg>
-  )
+  );
 }
-
-
 
 function PlusIcon(props) {
   return (
@@ -119,9 +156,8 @@ function PlusIcon(props) {
       <path d="M5 12h14" />
       <path d="M12 5v14" />
     </svg>
-  )
+  );
 }
-
 
 function SearchIcon(props) {
   return (
@@ -140,9 +176,8 @@ function SearchIcon(props) {
       <circle cx="11" cy="11" r="8" />
       <path d="m21 21-4.3-4.3" />
     </svg>
-  )
+  );
 }
-
 
 function UsersIcon(props) {
   return (
@@ -163,5 +198,5 @@ function UsersIcon(props) {
       <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
       <path d="M16 3.13a4 4 0 0 1 0 7.75" />
     </svg>
-  )
+  );
 }

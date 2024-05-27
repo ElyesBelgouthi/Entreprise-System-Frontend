@@ -16,7 +16,6 @@ import LoginPage from "./pages/login";
 import AdminSpace from "./pages/admin/admin-space";
 import EmployeesMangagement from "./pages/admin/employees-management";
 import Dashboard from "./pages/admin/dashboard";
-import Settings from "./pages/admin/settings";
 import RoomsAdmin from "./pages/admin/rooms-admin";
 import RoomEdit from "./pages/admin/room-edit";
 import MainLayout from "./pages/MainLayout";
@@ -63,10 +62,6 @@ const router = createBrowserRouter([
       {
         path: "rooms/:id",
         element: <RoomEdit />,
-      },
-      {
-        path: "settings",
-        element: <Settings />,
       },
     ],
   },

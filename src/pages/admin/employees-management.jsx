@@ -1,5 +1,12 @@
-import { Button } from "../../app/ui/button"
-import { TableHead, TableRow, TableHeader, TableCell, TableBody, Table } from "../../app/ui/table"
+import { Button } from "../../app/ui/button";
+import {
+  TableHead,
+  TableRow,
+  TableHeader,
+  TableCell,
+  TableBody,
+  Table,
+} from "../../app/ui/table";
 import {
   Dialog,
   DialogContent,
@@ -7,11 +14,12 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "../../app/ui/dialog"
-
+} from "../../app/ui/dialog";
 
 import EmployeeRow from "@/components/EmployeeRow";
 import AddEmployeeForm from "@/components/AddEmployeeForm";
+import api from "@/services/api";
+import { useEffect, useState } from "react";
 
 const DUMMY_Employees = [
   {
@@ -22,7 +30,7 @@ const DUMMY_Employees = [
     hireDate: "2024-05-27T08:00:00.000Z",
     roles: ["Admin", "User"],
     phoneNumber: "+1234567890",
-    status: "Active"
+    status: "Active",
   },
   {
     name: "Employee 2",
@@ -32,7 +40,7 @@ const DUMMY_Employees = [
     hireDate: "2024-05-27T08:00:00.000Z",
     roles: ["User"],
     phoneNumber: "+1234567891",
-    status: "Not Active"
+    status: "Not Active",
   },
   {
     name: "Employee 3",
@@ -42,7 +50,7 @@ const DUMMY_Employees = [
     hireDate: "2024-05-27T08:00:00.000Z",
     roles: ["Manager"],
     phoneNumber: "+1234567892",
-    status: "Active"
+    status: "Active",
   },
   {
     name: "Employee 4",
@@ -52,7 +60,7 @@ const DUMMY_Employees = [
     hireDate: "2024-05-27T08:00:00.000Z",
     roles: ["Admin", "User"],
     phoneNumber: "+1234567893",
-    status: "Not Active"
+    status: "Not Active",
   },
   {
     name: "Employee 5",
@@ -62,7 +70,7 @@ const DUMMY_Employees = [
     hireDate: "2024-05-27T08:00:00.000Z",
     roles: ["User"],
     phoneNumber: "+1234567894",
-    status: "Active"
+    status: "Active",
   },
   {
     name: "Employee 6",
@@ -72,7 +80,7 @@ const DUMMY_Employees = [
     hireDate: "2024-05-27T08:00:00.000Z",
     roles: ["Manager"],
     phoneNumber: "+1234567895",
-    status: "Not Active"
+    status: "Not Active",
   },
   {
     name: "Employee 7",
@@ -82,7 +90,7 @@ const DUMMY_Employees = [
     hireDate: "2024-05-27T08:00:00.000Z",
     roles: ["Admin", "User"],
     phoneNumber: "+1234567896",
-    status: "Active"
+    status: "Active",
   },
   {
     name: "Employee 8",
@@ -92,7 +100,7 @@ const DUMMY_Employees = [
     hireDate: "2024-05-27T08:00:00.000Z",
     roles: ["User"],
     phoneNumber: "+1234567897",
-    status: "Not Active"
+    status: "Not Active",
   },
   {
     name: "Employee 9",
@@ -102,7 +110,7 @@ const DUMMY_Employees = [
     hireDate: "2024-05-27T08:00:00.000Z",
     roles: ["Manager"],
     phoneNumber: "+1234567898",
-    status: "Active"
+    status: "Active",
   },
   {
     name: "Employee 10",
@@ -112,40 +120,58 @@ const DUMMY_Employees = [
     hireDate: "2024-05-27T08:00:00.000Z",
     roles: ["Admin", "User"],
     phoneNumber: "+1234567899",
-    status: "Not Active"
-  }
+    status: "Not Active",
+  },
 ];
 
-
 const EmployeesMangagement = () => {
-    return <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
-    <div className="flex items-center">
-      <h1 className="font-semibold text-lg md:text-2xl">Employees</h1>
-      
-      <AddEmployeeForm/>
-      
-    </div>
-    <div className="border shadow-sm rounded-lg">
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Name</TableHead>
-            <TableHead>Email</TableHead>
-            <TableHead className="hidden md:table-cell">Department</TableHead>
-            <TableHead className="hidden md:table-cell">Hire Date</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead>Actions</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {DUMMY_Employees.map((employee, index)=> {
-            return <EmployeeRow employee={employee} key={index} />
-          })}
-        </TableBody>
-      </Table>
-    </div>
-  </main>
-}
-export default EmployeesMangagement
+  const [employees, setEmployees] = useState(null);
 
+  useEffect((employees) => {
+    const fetchEmployees = async () => {
+      try {
+        const response = await api.get("/users");
+        if (response.data) {
+          setEmployees(response.data);
+        } else {
+          setEmployees(DUMMY_Employees);
+        }
+      } catch (error) {
+        console.error("Error fetching users:", error);
+        setRooms(DUMMY_ROOMS);
+      }
+    };
+    fetchEmployees();
+  }, []);
 
+  return (
+    <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
+      <div className="flex items-center">
+        <h1 className="font-semibold text-lg md:text-2xl">Employees</h1>
+
+        <AddEmployeeForm />
+      </div>
+      <div className="border shadow-sm rounded-lg">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Name</TableHead>
+              <TableHead>Email</TableHead>
+              <TableHead className="hidden md:table-cell">Department</TableHead>
+              <TableHead className="hidden md:table-cell">Hire Date</TableHead>
+              <TableHead>Role</TableHead>
+              <TableHead>Actions</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {employees &&
+              employees.map((employee, index) => {
+                return <EmployeeRow employee={employee} key={index} />;
+              })}
+          </TableBody>
+        </Table>
+      </div>
+    </main>
+  );
+};
+export default EmployeesMangagement;
