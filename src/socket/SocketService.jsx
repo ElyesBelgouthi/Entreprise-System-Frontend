@@ -6,13 +6,21 @@ class SocketService {
     this.socket = null;
   }
 
-  connect() {
-    const token = UserService.userToken();
+  async connect() {
+    const token = await UserService.userToken();
     if (token) {
       this.socket = io('http://localhost:3000', {
         query: {
           userId: token.id,
         },
+      });
+
+      this.socket.on('connect', () => {
+        console.log('Connected to WebSocket server');
+      });
+
+      this.socket.on('disconnect', () => {
+        console.log('Disconnected from WebSocket server');
       });
     }
   }

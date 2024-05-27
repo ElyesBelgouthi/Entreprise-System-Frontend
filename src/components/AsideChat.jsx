@@ -84,7 +84,7 @@ const AsideChat = () => {
                   <a
                     key={i}
                     className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-gray-200 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-50
-                      hover:cusor-pointer
+                      hover:cursor-pointer
                     "
                     // href="#"
                     onClick={() => { fetchConversations(user)
