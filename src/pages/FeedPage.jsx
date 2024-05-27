@@ -64,7 +64,7 @@ const FeedPage = () => {
 
               </div>
             </div>
-            <div className="space-y-8">
+            {/* <div className="space-y-8">
               <Card>
                 <CardHeader>
                   <CardTitle>Notifications</CardTitle>
@@ -115,7 +115,7 @@ const FeedPage = () => {
                 </CardHeader>
                 <CardContent />
               </Card>
-            </div>
+            </div> */}
           </div>
         </div>
       </main>
