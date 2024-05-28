@@ -31,8 +31,9 @@ const Header = () => {
     console.log("notificationState", notificationState);
   };
 
-
-  const notificationState = useSelector((state) => state.mainReducer.notificationIsRead);
+  const notificationState = useSelector(
+    (state) => state.mainReducer.notificationIsRead
+  );
   return (
     <header className="flex h-16 w-full shrink-0 items-center px-4 md:px-6 border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950">
       <a
@@ -86,14 +87,13 @@ const Header = () => {
             <DropdownMenuLabel>{user.username}</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
-              <Link to="/profile">Manage Profile</Link>
+              <Link to="/profile">View Profile</Link>
             </DropdownMenuItem>
             <DropdownMenuItem>Sign Out</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            
             <Button
               className={`rounded-full border border-gray-200 w-8 h-8 dark:border-gray-800
               ${!notificationState ? "bg-blue-500" : ""}
@@ -101,20 +101,19 @@ const Header = () => {
               size="icon"
               variant="ghost"
               onClick={handleClick}
-
-              
             >
-              <BellIcon className={` w-4 h-4 ${!notificationState ? "text-white" : "text-gray-500"}`} 
+              <BellIcon
+                className={` w-4 h-4 ${
+                  !notificationState ? "text-white" : "text-gray-500"
+                }`}
               />
             </Button>
           </DropdownMenuTrigger>
-          
-          <DropdownMenuContent align="end"
-          >
-            
+
+          <DropdownMenuContent align="end">
             <DropdownMenuLabel>Notifications</DropdownMenuLabel>
             <DropdownMenuSeparator />
-              <NotificationsDisplay />
+            <NotificationsDisplay />
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
