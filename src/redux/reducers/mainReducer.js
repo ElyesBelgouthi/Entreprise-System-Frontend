@@ -168,7 +168,22 @@
                     ...state,
                     roomsList: state.roomsList.filter((room) => room.id !== action.payload.id),
                 }
-                
+
+            case "LOGOUT_USER":
+                return {
+                    ...state,
+                    userToken: null,
+                    userData: null,
+                    usersList: [],
+                    selectedConversation: null,
+                    messagesList: [],
+                    onlineUsers: [],
+                    postsList: [],
+                    notifications: [],
+                    notificationIsRead: false,
+                    roomsList: [],
+
+                }
 
 
 

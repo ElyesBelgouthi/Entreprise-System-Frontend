@@ -9,7 +9,7 @@ const blacklistTransform = createTransform(
   // transform state on its way to being serialized and persisted
   (inboundState, key) => {
     if (key === 'mainReducer') {
-      const { selectedConversation, postsList, onlineUsers, ...rest } = inboundState; // Example key to blacklist
+      const { selectedConversation, postsList, onlineUsers, messagesList, notifications, ...rest } = inboundState; // Example key to blacklist
       return rest;
     }
     return inboundState;

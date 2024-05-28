@@ -19,10 +19,13 @@ import logo from "../assets/logo.png";
 import NotificationsDisplay from "./NotificationsDisplay";
 import { toggleNotificationIsRead } from "@/redux/actions";
 import { useDispatch, useSelector } from "react-redux";
+import useLogout from "@/hooks/useLogout";
 
 const Header = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.mainReducer.userData);
+
+  const logout = useLogout();
 
   const handleClick = (e) => {
     e.preventDefault();
@@ -89,7 +92,9 @@ const Header = () => {
             <DropdownMenuItem>
               <Link to="/profile">View Profile</Link>
             </DropdownMenuItem>
-            <DropdownMenuItem>Sign Out</DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={logout}  
+            >Sign Out</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
         <DropdownMenu>
