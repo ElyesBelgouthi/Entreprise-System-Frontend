@@ -1,13 +1,7 @@
+import React from "react";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import {
-  ApolloClient,
-  InMemoryCache,
-  ApolloProvider,
-  HttpLink,
-  from,
-} from "@apollo/client";
-import { onError } from "@apollo/client/link/error";
-
+import { ApolloProvider } from "@apollo/client";
+import { useSelector } from "react-redux";
 import "./App.css";
 import ChatPage from "./pages/ChatPage";
 import ProfilePage from "./pages/ProfilePage";
@@ -21,7 +15,9 @@ import RoomEdit from "./pages/admin/room-edit";
 import MainLayout from "./pages/MainLayout";
 import useSse from "./hooks/useSse";
 import client from "./GraphQL/apollo";
-import { useSelector } from "react-redux";
+import AdminGuard from "./guards/AdminGuard";
+import UserGuard from "./guards/UserGuard";
+import AdminAndUserGuard from "./guards/AdminAndUserGuard";
 
 const router = createBrowserRouter([
   {
@@ -30,10 +26,15 @@ const router = createBrowserRouter([
   },
   {
     path: "/",
-    element: <MainLayout />,
+    element: (
+      <AdminAndUserGuard>
+        <MainLayout />
+      </AdminAndUserGuard>
+    ),
     children: [
       {
         index: 1,
+        path: "/",
         element: <FeedPage />,
       },
       {
@@ -48,7 +49,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/admin",
-    element: <AdminSpace />,
+    element: (
+      <AdminGuard>
+        <AdminSpace />
+      </AdminGuard>
+    ),
     children: [
       {
         index: 1,
@@ -70,35 +75,11 @@ const router = createBrowserRouter([
   },
 ]);
 
-// const errorLink = onError(({ graphqlErrors, networkError }) => {
-//   if (graphqlErrors) {
-//     graphqlErrors.map(({ message, location, path }) => {
-//       alert(`GraphQL error ${message}`);
-//     });
-//   }
-// });
-
-// const link = from([
-//   new HttpLink({
-//     uri: "http://localhost:3000/graphql",
-//   }),
-// ]);
-
-// const client = new ApolloClient({
-//   cache: new InMemoryCache(),
-//   link: link,
-// });
-
 function App() {
-
-  const userToken = useSelector((state) => state.mainReducer?.userToken);
   const userId = useSelector((state) => state.mainReducer?.userData?.id);
   const role = useSelector((state) => state.mainReducer?.userData?.role);
 
   const events = useSse('http://localhost:3000/events/subscribe', userId, role);
-
-    
-
 
   return (
     <ApolloProvider client={client}>

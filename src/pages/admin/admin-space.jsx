@@ -9,16 +9,20 @@ import {
   DropdownMenu,
 } from "../../app/ui/dropdown-menu";
 import { AvatarImage, AvatarFallback, Avatar } from "../../app/ui/avatar";
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
 
 const AdminSpace = () => {
+
+  const navigate = useNavigate();
+
   return (
     <div className="grid min-h-screen w-full grid-cols-[280px_1fr] bg-gray-100 dark:bg-gray-950">
       <div className="hidden border-r bg-gray-100/40 dark:bg-gray-800/40 lg:block">
         <div className="flex h-full max-h-screen flex-col gap-2">
           <a
             className="m-6 mb-0 hidden lg:flex w-72 overflow-visible lg:items-center lg:space-x-2"
-            href="#"
+            // href="#"
+            onClick={() => navigate("/")}
           >
             <img src={logo} alt="logo" className="h-10 w-10 " />
             <h1 className="text-[20px] font-bold ">Enterprise System</h1>
